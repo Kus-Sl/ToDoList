@@ -18,8 +18,14 @@ class TaskListViewController: UITableViewController {
         taskList = StorageManager.shared.fetchData() ?? []
     }
 
-    @IBAction func AddNewTask(_ sender: UIBarButtonItem) {
+    @IBAction func addNewTask(_ sender: UIBarButtonItem) {
         createTask()
+    }
+
+    @IBAction func clearContext(_ sender: UIBarButtonItem) {
+        StorageManager.shared.clearContext()
+        taskList = []
+        tableView.reloadData()
     }
 
     private func createTask() {

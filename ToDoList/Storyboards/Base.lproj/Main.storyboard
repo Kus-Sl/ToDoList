@@ -32,9 +32,14 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Task List" id="db0-h8-DfV">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="KB3-SA-fwI">
+                            <connections>
+                                <action selector="clearContext:" destination="S3O-nj-fhy" id="hM1-E7-pyj"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dsW-6I-3cz">
                             <connections>
-                                <action selector="AddNewTask:" destination="S3O-nj-fhy" id="ngA-AK-ODw"/>
+                                <action selector="addNewTask:" destination="S3O-nj-fhy" id="zuJ-u1-I69"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
