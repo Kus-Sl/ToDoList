@@ -56,15 +56,63 @@
 		A8BAD11828800A340057823B /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				A8BAD11928800A340057823B /* AppDelegate.swift */,
-				A8BAD11B28800A340057823B /* SceneDelegate.swift */,
-				A8BAD11D28800A340057823B /* ViewController.swift */,
-				A8BAD11F28800A340057823B /* Main.storyboard */,
-				A8BAD12228800A360057823B /* Assets.xcassets */,
-				A8BAD12428800A360057823B /* LaunchScreen.storyboard */,
-				A8BAD12728800A360057823B /* Info.plist */,
+				A8BAD13128800C3A0057823B /* ViewControllers */,
+				A8BAD13028800C1B0057823B /* ServiceLayers */,
+				A8BAD12D28800BC40057823B /* Storyboards */,
+				A8BAD13228800C480057823B /* Models */,
+				A8BAD12E28800BE20057823B /* App */,
+				A8BAD12F28800BEF0057823B /* Resourses */,
 			);
 			path = ToDoList;
+			sourceTree = "<group>";
+		};
+		A8BAD12D28800BC40057823B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A8BAD11F28800A340057823B /* Main.storyboard */,
+				A8BAD12428800A360057823B /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		A8BAD12E28800BE20057823B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A8BAD11928800A340057823B /* AppDelegate.swift */,
+				A8BAD11B28800A340057823B /* SceneDelegate.swift */,
+				A8BAD12728800A360057823B /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A8BAD12F28800BEF0057823B /* Resourses */ = {
+			isa = PBXGroup;
+			children = (
+				A8BAD12228800A360057823B /* Assets.xcassets */,
+			);
+			path = Resourses;
+			sourceTree = "<group>";
+		};
+		A8BAD13028800C1B0057823B /* ServiceLayers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ServiceLayers;
+			sourceTree = "<group>";
+		};
+		A8BAD13128800C3A0057823B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A8BAD11D28800A340057823B /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A8BAD13228800C480057823B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
