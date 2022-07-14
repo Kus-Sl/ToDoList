@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		A8BAD11A28800A340057823B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAD11928800A340057823B /* AppDelegate.swift */; };
 		A8BAD11C28800A340057823B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAD11B28800A340057823B /* SceneDelegate.swift */; };
-		A8BAD11E28800A340057823B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAD11D28800A340057823B /* ViewController.swift */; };
+		A8BAD11E28800A340057823B /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAD11D28800A340057823B /* TaskListViewController.swift */; };
 		A8BAD12128800A340057823B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8BAD11F28800A340057823B /* Main.storyboard */; };
 		A8BAD12328800A360057823B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8BAD12228800A360057823B /* Assets.xcassets */; };
 		A8BAD12628800A360057823B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8BAD12428800A360057823B /* LaunchScreen.storyboard */; };
@@ -19,7 +19,7 @@
 		A8BAD11628800A340057823B /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8BAD11928800A340057823B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A8BAD11B28800A340057823B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A8BAD11D28800A340057823B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A8BAD11D28800A340057823B /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		A8BAD12028800A340057823B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A8BAD12228800A360057823B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A8BAD12528800A360057823B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		A8BAD13128800C3A0057823B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A8BAD11D28800A340057823B /* ViewController.swift */,
+				A8BAD11D28800A340057823B /* TaskListViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -186,7 +186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8BAD11E28800A340057823B /* ViewController.swift in Sources */,
+				A8BAD11E28800A340057823B /* TaskListViewController.swift in Sources */,
 				A8BAD11A28800A340057823B /* AppDelegate.swift in Sources */,
 				A8BAD11C28800A340057823B /* SceneDelegate.swift in Sources */,
 			);
@@ -337,7 +337,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5SSHB4KN3U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ToDoList/Info.plist;
+				INFOPLIST_FILE = ToDoList/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -366,7 +366,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5SSHB4KN3U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ToDoList/Info.plist;
+				INFOPLIST_FILE = ToDoList/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
