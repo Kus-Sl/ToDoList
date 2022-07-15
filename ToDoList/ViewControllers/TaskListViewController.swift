@@ -23,17 +23,16 @@ class TaskListViewController: UITableViewController {
     }
 
     @IBAction func clearContext(_ sender: UIBarButtonItem) {
-        StorageManager.shared.clearContext()
+        StorageManager.shared.clearContext(taskList)
         taskList = []
         tableView.reloadData()
     }
+}
 
+// MARK: Private methods
+extension TaskListViewController {
     private func createTask() {
-        let alert = UIAlertController(title: "New task", message: nil, preferredStyle: .alert)
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-
-        let saveAction = UIAlertAction(title: "Save", style: .default) { [self] _ in
+        showAlert(with: "Add") { [self] alert in
             guard let taskTitle = alert.textFields?.first?.text, !taskTitle.isEmpty else { return }
 
             StorageManager.shared.saveNewTask(taskTitle)
@@ -42,8 +41,27 @@ class TaskListViewController: UITableViewController {
             let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
             tableView.insertRows(at: [cellIndex], with: .automatic)
         }
+    }
 
-        alert.addAction(saveAction)
+    private func updateTask(for indexPath: IndexPath) {
+        showAlert(with: "Update") { [self] alert in
+            guard let newTaskTitle = alert.textFields?.first?.text, !newTaskTitle.isEmpty else { return }
+
+            StorageManager.shared.updateTask(with: newTaskTitle, updatingTask: taskList[indexPath.row])
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
+
+    private func showAlert(with nameMainAction: String, mainAction: @escaping (UIAlertController) -> ()) {
+        let alert = UIAlertController(title: "\(nameMainAction) task", message: nil, preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+
+        let mainAction = UIAlertAction(title: nameMainAction, style: .default) { _ in
+            mainAction(alert)
+        }
+
+        alert.addAction(mainAction)
         alert.addAction(cancelAction)
         alert.addTextField { textField in
             textField.placeholder = "New task"
@@ -80,6 +98,7 @@ extension TaskListViewController {
 // MARK: - UITableViewDelegate
 extension TaskListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        updateTask(for: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

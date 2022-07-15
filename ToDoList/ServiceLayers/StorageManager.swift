@@ -60,18 +60,21 @@ class StorageManager {
         saveContext()
     }
 
+    func updateTask(with newTaskTitle: String, updatingTask: ToDoTask) {
+        updatingTask.title = newTaskTitle
+        saveContext()
+    }
+
     func deleteTask(_ task: ToDoTask) {
         context.delete(task)
 
         saveContext()
     }
 
-    func clearContext() {
-        guard let tasks = fetchData() else { return }
+    func clearContext(_ tasks : [ToDoTask]) {
         for task in tasks {
             context.delete(task)
         }
-        
         saveContext()
     }
 }
