@@ -15,8 +15,6 @@ class StorageManager {
 
     private let entityName = "ToDoTask"
 
-    private lazy var context = persistentContainer.viewContext
-
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "ToDoList")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -26,6 +24,8 @@ class StorageManager {
         })
         return container
     }()
+
+    private lazy var context = persistentContainer.viewContext
 
     private init() {}
 
