@@ -15,7 +15,9 @@ class TaskListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskList = StorageManager.shared.fetchData() ?? []
+        StorageManager.shared.fetchData { tasks in
+            taskList = tasks
+        }
     }
 
     @IBAction func addNewTask(_ sender: UIBarButtonItem) {
@@ -35,8 +37,9 @@ extension TaskListViewController {
         showAlert(with: "Add") { [self] alert in
             guard let taskTitle = alert.textFields?.first?.text, !taskTitle.isEmpty else { return }
 
-            StorageManager.shared.saveNewTask(taskTitle)
-            taskList = StorageManager.shared.fetchData() ?? []
+            StorageManager.shared.saveNewTask(taskTitle) { newTask in
+                taskList.append(newTask)
+            }
 
             let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
             tableView.insertRows(at: [cellIndex], with: .automatic)

@@ -15,7 +15,7 @@ class StorageManager {
 
     private let entityName = "ToDoTask"
 
-    private lazy var persistentContainer: NSPersistentContainer = {
+    private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "ToDoList")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -29,14 +29,14 @@ class StorageManager {
 
     private init() {}
 
-    func fetchData() -> [ToDoTask]? {
+    func fetchData(completion: ([ToDoTask]) -> ()) {
         let fetchRequest = ToDoTask.fetchRequest()
 
         do {
-            return try context.fetch(fetchRequest)
+            let tasks = try context.fetch(fetchRequest)
+            completion(tasks)
         } catch let error {
             print("Failed to fetch data", error)
-            return nil
         }
     }
 
@@ -51,13 +51,14 @@ class StorageManager {
         }
     }
 
-    func saveNewTask(_ taskTitle: String) {
+    func saveNewTask(_ taskTitle: String, completion: (ToDoTask) -> ()) {
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
         guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
 
         toDoTask.title = taskTitle
-
         saveContext()
+
+        completion(toDoTask)
     }
 
     func updateTask(with newTaskTitle: String, updatingTask: ToDoTask) {
