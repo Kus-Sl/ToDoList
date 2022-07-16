@@ -14,6 +14,7 @@ class StorageManager {
     static let shared = StorageManager()
 
     private let entityName = "ToDoTask"
+    private let context: NSManagedObjectContext
 
     private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "ToDoList")
@@ -25,9 +26,9 @@ class StorageManager {
         return container
     }()
 
-    private lazy var context = persistentContainer.viewContext
-
-    private init() {}
+    private init() {
+        context =  persistentContainer.viewContext
+    }
 
     func fetchData(completion: ([ToDoTask]) -> ()) {
         let fetchRequest = ToDoTask.fetchRequest()
@@ -52,13 +53,12 @@ class StorageManager {
     }
 
     func saveNewTask(_ taskTitle: String, completion: (ToDoTask) -> ()) {
-        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
-        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
-
+//        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
+//        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
+        let toDoTask = ToDoTask(context: context)
         toDoTask.title = taskTitle
-        saveContext()
-
         completion(toDoTask)
+        saveContext()
     }
 
     func updateTask(with newTaskTitle: String, updatingTask: ToDoTask) {
@@ -68,7 +68,6 @@ class StorageManager {
 
     func deleteTask(_ task: ToDoTask) {
         context.delete(task)
-
         saveContext()
     }
 
@@ -76,6 +75,7 @@ class StorageManager {
         for task in tasks {
             context.delete(task)
         }
+
         saveContext()
     }
 }
