@@ -83,10 +83,13 @@ extension TaskListViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        var content = cell.defaultContentConfiguration()
 
-        content.text = taskList[indexPath.row].title
-        cell.contentConfiguration = content
+        cell.contentConfiguration = {
+            var content = cell.defaultContentConfiguration()
+            content.text = taskList[indexPath.row].title
+            return content
+        }()
+
         return cell
     }
 
