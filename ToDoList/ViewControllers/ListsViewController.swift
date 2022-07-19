@@ -11,13 +11,13 @@ class ListsViewController: UIViewController {
 
     private let cellID = "ListCell"
 
-    private var taskList: [ToDoTask] = []
-
+    private var tasksList: [ToDoTasksList] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        StorageManager.shared.fetchData { tasks in
-            taskList = tasks
+
+        StorageManager.shared.fetchData { tasksList in
+            self.tasksList = tasksList
         }
     }
 }
@@ -25,7 +25,7 @@ class ListsViewController: UIViewController {
 // MARK: UITableViewDataSource
 extension ListsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        taskList.count
+        tasksList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -33,15 +33,11 @@ extension ListsViewController: UITableViewDataSource {
 
         cell.contentConfiguration = {
             var content = cell.defaultContentConfiguration()
-            content.text = taskList[indexPath.row].title
+            content.text = tasksList[indexPath.row].title
+            content.secondaryText = "1"
             return content
         }()
 
         return cell
     }
-}
-
-// MARK: UITableViewDelegate
-extension ListsViewController: UITableViewDelegate {
-    
 }

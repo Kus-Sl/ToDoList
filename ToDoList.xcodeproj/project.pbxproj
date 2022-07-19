@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A810ACA92886D8A0008A1FB3 /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A810ACA82886D8A0008A1FB3 /* ListsViewController.swift */; };
+		A810ACAB28870392008A1FB3 /* Extension + UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */; };
 		A8679F7328806CD500759BEC /* ToDoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A8679F7128806CD500759BEC /* ToDoList.xcdatamodeld */; };
 		A8679F7528806D2C00759BEC /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8679F7428806D2C00759BEC /* StorageManager.swift */; };
 		A8BAD11A28800A340057823B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAD11928800A340057823B /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		A810ACA82886D8A0008A1FB3 /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
+		A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIAlertController.swift"; sourceTree = "<group>"; };
 		A8679F7228806CD500759BEC /* ToDoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDoList.xcdatamodel; sourceTree = "<group>"; };
 		A8679F7428806D2C00759BEC /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		A8BAD11628800A340057823B /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,8 +112,9 @@
 		A8BAD13128800C3A0057823B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A8BAD11D28800A340057823B /* TaskListViewController.swift */,
 				A810ACA82886D8A0008A1FB3 /* ListsViewController.swift */,
+				A8BAD11D28800A340057823B /* TaskListViewController.swift */,
+				A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				A810ACA92886D8A0008A1FB3 /* ListsViewController.swift in Sources */,
 				A8679F7528806D2C00759BEC /* StorageManager.swift in Sources */,
 				A8BAD11C28800A340057823B /* SceneDelegate.swift in Sources */,
+				A810ACAB28870392008A1FB3 /* Extension + UIAlertController.swift in Sources */,
 				A8679F7328806CD500759BEC /* ToDoList.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

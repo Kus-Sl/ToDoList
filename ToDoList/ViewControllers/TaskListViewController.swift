@@ -15,9 +15,9 @@ class TaskListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        StorageManager.shared.fetchData { tasks in
-            taskList = tasks
-        }
+//        StorageManager.shared.fetchData { tasks in
+//            taskList = tasks
+//        }
     }
 
     @IBAction func addNewTask(_ sender: UIBarButtonItem) {
@@ -34,7 +34,9 @@ class TaskListViewController: UITableViewController {
 // MARK: Private methods
 extension TaskListViewController {
     private func createTask() {
-        showAlert() { [self] taskTitle in
+
+        let alert = UIAlertController.createAlert(withTitle: "Новая задача")
+        alert.showAlert() { [self] taskTitle in
 
             StorageManager.shared.saveNewTask(taskTitle) { newTask in
                 taskList.append(newTask)
@@ -42,33 +44,18 @@ extension TaskListViewController {
                 tableView.insertRows(at: [cellIndex], with: .automatic)
             }
         }
+
+        present(alert, animated: true)
     }
 
     private func updateTask(for indexPath: IndexPath) {
-        showAlert(for: taskList[indexPath.row], with: "Update") { [self] updatingTaskTitle in
+
+        let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
+
+        alert.showAlert(for: taskList[indexPath.row]) { [self] updatingTaskTitle in
 
             StorageManager.shared.updateTask(with: updatingTaskTitle, updatingTask: taskList[indexPath.row])
             tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-    }
-
-    private func showAlert(for task: ToDoTask? = nil, with nameMainAction: String = "Add", mainAction: @escaping (String) -> ()) {
-
-        let alert = UIAlertController(title: "\(nameMainAction) task", message: nil, preferredStyle: .alert)
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-
-        let mainAction = UIAlertAction(title: nameMainAction, style: .default) { _ in
-            if let taskTitle = alert.textFields?.first?.text, !taskTitle.isEmpty {
-                mainAction(taskTitle)
-            }
-        }
-
-        alert.addAction(mainAction)
-        alert.addAction(cancelAction)
-        alert.addTextField { textField in
-            textField.placeholder = task?.title == nil ? "New task" : "Updating task"
-            textField.text = task?.title
         }
 
         present(alert, animated: true)

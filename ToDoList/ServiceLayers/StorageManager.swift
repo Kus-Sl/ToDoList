@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 class StorageManager {
 
     static let shared = StorageManager()
@@ -30,16 +29,29 @@ class StorageManager {
         context =  persistentContainer.viewContext
     }
 
-    func fetchData(completion: ([ToDoTask]) -> ()) {
-        let fetchRequest = ToDoTask.fetchRequest()
+    func fetchData(completion: ([ToDoTasksList]) -> ()) {
+
+        let fetchRequest = ToDoTasksList.fetchRequest()
 
         do {
-            let tasks = try context.fetch(fetchRequest)
-            completion(tasks)
+            let tasksList = try context.fetch(fetchRequest)
+            completion(tasksList)
         } catch let error {
             print("Failed to fetch data", error)
         }
     }
+
+    //    func fetchData(completion: ([ToDoTask]) -> ()) {
+    //
+    //        let fetchRequest = ToDoTask.fetchRequest()
+    //
+    //        do {
+    //            let tasks = try context.fetch(fetchRequest)
+    //            completion(tasks)
+    //        } catch let error {
+    //            print("Failed to fetch data", error)
+    //        }
+    //    }
 
     func saveContext () {
         if context.hasChanges {
@@ -53,8 +65,8 @@ class StorageManager {
     }
 
     func saveNewTask(_ taskTitle: String, completion: (ToDoTask) -> ()) {
-//        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
-//        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
+        //        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
+        //        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
         let toDoTask = ToDoTask(context: context)
         toDoTask.title = taskTitle
         completion(toDoTask)
@@ -77,6 +89,52 @@ class StorageManager {
         }
 
         saveContext()
+    }
+
+    func resetCoreData() {
+        let persistentCoordinator = persistentContainer.persistentStoreCoordinator
+        guard let persistentStore = persistentCoordinator.persistentStores.first else { return }
+
+        try! persistentCoordinator.destroyPersistentStore(
+            at: persistentStore.url!,
+            ofType: persistentStore.type,
+            options: nil
+        )
+
+        UserDefaults.standard.set(false, forKey: "Preview")
+    }
+
+    // MARK: Preview method
+    func setPreviewData() {
+        if !UserDefaults.standard.bool(forKey: "Preview") {
+
+            var tasks: [ToDoTask] = []
+
+            for ind in 0...5 {
+                let task = ToDoTask(context: context)
+                task.title = "Title \(ind)"
+                task.date = Date()
+                task.isComplete = false
+                task.note = "note \(ind)"
+
+                tasks.append(task)
+            }
+
+            let _: ToDoTasksList = {
+                let tasksList = ToDoTasksList(context: context)
+                tasksList.title = "Preview List"
+                tasksList.date = Date()
+
+                tasksList.tasks?.adding(tasks)
+
+                return tasksList
+            }()
+
+            DispatchQueue.main.async {
+                StorageManager.shared.saveContext()
+                UserDefaults.standard.set(true, forKey: "Preview")
+            }
+        }
     }
 }
 
