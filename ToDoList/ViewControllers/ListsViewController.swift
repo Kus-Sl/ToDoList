@@ -1,0 +1,47 @@
+//
+//  ListsViewController.swift
+//  ToDoList
+//
+//  Created by Вячеслав Кусакин on 19.07.2022.
+//
+
+import UIKit
+
+class ListsViewController: UIViewController {
+
+    private let cellID = "ListCell"
+
+    private var taskList: [ToDoTask] = []
+
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        StorageManager.shared.fetchData { tasks in
+            taskList = tasks
+        }
+    }
+}
+
+// MARK: UITableViewDataSource
+extension ListsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        taskList.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+
+        cell.contentConfiguration = {
+            var content = cell.defaultContentConfiguration()
+            content.text = taskList[indexPath.row].title
+            return content
+        }()
+
+        return cell
+    }
+}
+
+// MARK: UITableViewDelegate
+extension ListsViewController: UITableViewDelegate {
+    
+}

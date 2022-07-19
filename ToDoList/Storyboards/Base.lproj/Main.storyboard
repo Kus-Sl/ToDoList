@@ -3,11 +3,101 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Task List-->
+        <!--Navigation Controller-->
+        <scene sceneID="RzZ-Bb-VC5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="k7s-45-18I" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="bWl-Gb-djb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" systemColor="labelColor"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <navigationBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" red="1" green="0.14509803921568626" blue="0.14509803921568626" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                        </navigationBarAppearance>
+                        <navigationBarAppearance key="scrollEdgeAppearance">
+                            <color key="backgroundColor" red="1" green="0.14509803921568626" blue="0.14509803921568626" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                        </navigationBarAppearance>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="yYr-pA-h0i" kind="relationship" relationship="rootViewController" id="Zj6-0x-efe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x17-cT-WqW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-475" y="58"/>
+        </scene>
+        <!--Мои списки-->
+        <scene sceneID="jn2-1F-I2r">
+            <objects>
+                <viewController id="yYr-pA-h0i" customClass="ListsViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="O94-nu-feo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8cb-pl-JGF">
+                                <rect key="frame" x="0.0" y="98" width="414" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="IN8-mi-Fpk"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Date"/>
+                                    <segment title="A-Z"/>
+                                </segments>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TDs-eE-EEa">
+                                <rect key="frame" x="0.0" y="146" width="414" height="750"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListCell" id="yVc-SX-srU">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yVc-SX-srU" id="Mk2-Xh-n3S">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="S3O-nj-fhy" kind="show" id="66o-4v-1Pd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="yYr-pA-h0i" id="2pf-Be-LB5"/>
+                                    <outlet property="delegate" destination="yYr-pA-h0i" id="Job-kL-Fjg"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="qv4-5r-iKO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="TDs-eE-EEa" firstAttribute="leading" secondItem="qv4-5r-iKO" secondAttribute="leading" id="1z2-96-tyo"/>
+                            <constraint firstItem="8cb-pl-JGF" firstAttribute="leading" secondItem="O94-nu-feo" secondAttribute="leading" id="7Cu-hB-T8o"/>
+                            <constraint firstItem="qv4-5r-iKO" firstAttribute="trailing" secondItem="TDs-eE-EEa" secondAttribute="trailing" id="7Pb-fB-GZs"/>
+                            <constraint firstItem="TDs-eE-EEa" firstAttribute="top" secondItem="8cb-pl-JGF" secondAttribute="bottom" constant="8" symbolic="YES" id="DN0-gg-Ygk"/>
+                            <constraint firstItem="TDs-eE-EEa" firstAttribute="bottom" secondItem="qv4-5r-iKO" secondAttribute="bottom" constant="34" id="GBz-EW-TBg"/>
+                            <constraint firstItem="8cb-pl-JGF" firstAttribute="trailing" secondItem="O94-nu-feo" secondAttribute="trailing" id="MDi-5p-572"/>
+                            <constraint firstItem="8cb-pl-JGF" firstAttribute="top" secondItem="qv4-5r-iKO" secondAttribute="top" constant="10" id="xlQ-v4-dI8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Мои списки" largeTitleDisplayMode="never" id="F3Y-6d-IWF" userLabel="I">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="EQb-Ec-9JS"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="r9X-3b-4pG"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vlK-BW-WI9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="471" y="58"/>
+        </scene>
+        <!--Список-->
         <scene sceneID="mKA-g5-rte">
             <objects>
                 <tableViewController id="S3O-nj-fhy" customClass="TaskListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,7 +121,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Task List" id="db0-h8-DfV">
+                    <navigationItem key="navigationItem" title="Список" largeTitleDisplayMode="always" id="db0-h8-DfV">
                         <barButtonItem key="leftBarButtonItem" systemItem="trash" id="KB3-SA-fwI">
                             <connections>
                                 <action selector="clearContext:" destination="S3O-nj-fhy" id="hM1-E7-pyj"/>
@@ -47,35 +137,13 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="paU-6v-GTO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="341" y="58"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="RzZ-Bb-VC5">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="k7s-45-18I" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="bWl-Gb-djb">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <navigationBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" red="1" green="0.14509803921568626" blue="0.14509803921568626" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                        </navigationBarAppearance>
-                        <navigationBarAppearance key="scrollEdgeAppearance">
-                            <color key="backgroundColor" red="1" green="0.14509803921568626" blue="0.14509803921568626" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                        </navigationBarAppearance>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="S3O-nj-fhy" kind="relationship" relationship="rootViewController" id="U7z-Wj-wLG"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x17-cT-WqW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-475" y="58"/>
+            <point key="canvasLocation" x="1319" y="58"/>
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
