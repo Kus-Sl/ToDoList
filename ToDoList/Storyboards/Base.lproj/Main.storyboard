@@ -105,7 +105,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Мои списки" largeTitleDisplayMode="never" id="F3Y-6d-IWF" userLabel="I">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="EQb-Ec-9JS"/>
+                        <barButtonItem key="leftBarButtonItem" title="Ред." id="EQb-Ec-9JS"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="r9X-3b-4pG"/>
                     </navigationItem>
                     <connections>
@@ -144,10 +144,10 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="dsW-6I-3cz">
                                 <connections>
-                                    <action selector="addNewTask:" destination="S3O-nj-fhy" id="zuJ-u1-I69"/>
+                                    <action selector="createTask:" destination="S3O-nj-fhy" id="y6a-0j-Bpy"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="edit" id="b5a-Fu-PEI">
+                            <barButtonItem title="Ред." id="b5a-Fu-PEI">
                                 <connections>
                                     <action selector="editTasks:" destination="S3O-nj-fhy" id="cq8-H7-cze"/>
                                 </connections>
