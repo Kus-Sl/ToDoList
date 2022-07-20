@@ -9,23 +9,35 @@ import UIKit
 
 class ListsViewController: UIViewController {
 
+    @IBOutlet weak var tasksListTableView: UITableView!
+
     private let cellID = "ListCell"
 
-    private var tasksList: [ToDoTasksList] = []
+    private var taskLists: [ToDoTaskList] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         StorageManager.shared.fetchData { tasksList in
-            self.tasksList = tasksList
+            self.taskLists = tasksList
         }
+    }
+}
+
+// MARK: Navigation
+extension ListsViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let currentIndexPath = tasksListTableView.indexPathForSelectedRow else { return }
+        guard let vc = segue.destination as? TaskListViewController else { return }
+
+        vc.taskList = taskLists[currentIndexPath.row]
     }
 }
 
 // MARK: UITableViewDataSource
 extension ListsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tasksList.count
+        taskLists.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -33,7 +45,7 @@ extension ListsViewController: UITableViewDataSource {
 
         cell.contentConfiguration = {
             var content = cell.defaultContentConfiguration()
-            content.text = tasksList[indexPath.row].title
+            content.text = taskLists[indexPath.row].title
             content.secondaryText = "1"
             return content
         }()

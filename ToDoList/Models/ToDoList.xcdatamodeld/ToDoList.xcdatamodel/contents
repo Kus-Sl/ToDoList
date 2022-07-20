@@ -5,15 +5,15 @@
         <attribute name="isComplete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="taskList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ToDoTasksList" inverseName="tasks" inverseEntity="ToDoTasksList"/>
+        <relationship name="taskList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ToDoTaskList" inverseName="tasks" inverseEntity="ToDoTaskList"/>
     </entity>
-    <entity name="ToDoTasksList" representedClassName="ToDoTasksList" syncable="YES" codeGenerationType="class">
+    <entity name="ToDoTaskList" representedClassName="ToDoTaskList" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ToDoTask" inverseName="taskList" inverseEntity="ToDoTask"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ToDoTask" inverseName="taskList" inverseEntity="ToDoTask"/>
     </entity>
     <elements>
         <element name="ToDoTask" positionX="-255.3125" positionY="-72.27734375" width="128" height="118"/>
-        <element name="ToDoTasksList" positionX="-640.41015625" positionY="-156.3359375" width="128" height="88"/>
+        <element name="ToDoTaskList" positionX="-640.41015625" positionY="-156.3359375" width="128" height="88"/>
     </elements>
 </model>

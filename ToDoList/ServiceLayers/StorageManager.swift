@@ -29,9 +29,9 @@ class StorageManager {
         context =  persistentContainer.viewContext
     }
 
-    func fetchData(completion: ([ToDoTasksList]) -> ()) {
+    func fetchData(completion: ([ToDoTaskList]) -> ()) {
 
-        let fetchRequest = ToDoTasksList.fetchRequest()
+        let fetchRequest = ToDoTaskList.fetchRequest()
 
         do {
             let tasksList = try context.fetch(fetchRequest)
@@ -120,14 +120,15 @@ class StorageManager {
                 tasks.append(task)
             }
 
-            let _: ToDoTasksList = {
-                let tasksList = ToDoTasksList(context: context)
+            let _: ToDoTaskList = {
+                let tasksList = ToDoTaskList(context: context)
                 tasksList.title = "Preview List"
                 tasksList.date = Date()
 
-                tasksList.tasks?.adding(tasks)
+                tasksList.addToTasks(NSOrderedSet(array: tasks))
 
                 return tasksList
+
             }()
 
             DispatchQueue.main.async {

@@ -108,6 +108,9 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="EQb-Ec-9JS"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="r9X-3b-4pG"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tasksListTableView" destination="TDs-eE-EEa" id="bkC-nK-CSI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vlK-BW-WI9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,15 +9,14 @@ import UIKit
 
 class TaskListViewController: UITableViewController {
 
-    private let cellID = "Task"
+    var taskList: ToDoTaskList!
 
-    private var taskList: [ToDoTask] = []
+    private let cellID = "Task"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        StorageManager.shared.fetchData { tasks in
-//            taskList = tasks
-//        }
+
+        title = taskList.title
     }
 
     @IBAction func addNewTask(_ sender: UIBarButtonItem) {
@@ -25,8 +24,8 @@ class TaskListViewController: UITableViewController {
     }
 
     @IBAction func clearContext(_ sender: UIBarButtonItem) {
-        StorageManager.shared.clearContext(taskList)
-        taskList = []
+//        StorageManager.shared.clearContext(taskList)
+//        taskList = nil
         tableView.reloadData()
     }
 }
@@ -39,9 +38,9 @@ extension TaskListViewController {
         alert.showAlert() { [self] taskTitle in
 
             StorageManager.shared.saveNewTask(taskTitle) { newTask in
-                taskList.append(newTask)
-                let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
-                tableView.insertRows(at: [cellIndex], with: .automatic)
+//                taskList.append(newTask)
+//                let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
+//                tableView.insertRows(at: [cellIndex], with: .automatic)
             }
         }
 
@@ -52,11 +51,11 @@ extension TaskListViewController {
 
         let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
 
-        alert.showAlert(for: taskList[indexPath.row]) { [self] updatingTaskTitle in
+//        alert.showAlert(for: taskList[indexPath.row]) { [self] updatingTaskTitle in
 
-            StorageManager.shared.updateTask(with: updatingTaskTitle, updatingTask: taskList[indexPath.row])
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
+//            StorageManager.shared.updateTask(with: updatingTaskTitle, updatingTask: taskList[indexPath.row])
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+//        }
 
         present(alert, animated: true)
     }
@@ -65,7 +64,7 @@ extension TaskListViewController {
 // MARK: UITableViewDataSource
 extension TaskListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        taskList.count
+        taskList.tasks?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,7 +72,12 @@ extension TaskListViewController {
 
         cell.contentConfiguration = {
             var content = cell.defaultContentConfiguration()
-            content.text = taskList[indexPath.row].title
+
+            if let t = taskList.tasks![indexPath.row] as? ToDoTask {
+                content.text = t.title
+                content.secondaryText = t.note
+            }
+
             return content
         }()
 
@@ -82,9 +86,10 @@ extension TaskListViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            StorageManager.shared.deleteTask(taskList[indexPath.row])
-            taskList.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+
+//            StorageManager.shared.deleteTask(taskList[indexPath.row])
+//            taskList.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
