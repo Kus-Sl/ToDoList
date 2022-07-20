@@ -30,7 +30,6 @@ class StorageManager {
     }
 
     func fetchData(completion: ([ToDoTaskList]) -> ()) {
-
         let fetchRequest = ToDoTaskList.fetchRequest()
 
         do {
@@ -40,18 +39,6 @@ class StorageManager {
             print("Failed to fetch data", error)
         }
     }
-
-    //    func fetchData(completion: ([ToDoTask]) -> ()) {
-    //
-    //        let fetchRequest = ToDoTask.fetchRequest()
-    //
-    //        do {
-    //            let tasks = try context.fetch(fetchRequest)
-    //            completion(tasks)
-    //        } catch let error {
-    //            print("Failed to fetch data", error)
-    //        }
-    //    }
 
     func saveContext () {
         if context.hasChanges {
@@ -63,17 +50,25 @@ class StorageManager {
             }
         }
     }
+}
 
-    func saveNewTask(_ taskTitle: String, completion: (ToDoTask) -> ()) {
+// Task's methods
+extension StorageManager {
+    func createTask(_ taskTitle: String, to taskList: ToDoTaskList, completion: (ToDoTask) -> ()) {
         //        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
         //        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
+
         let toDoTask = ToDoTask(context: context)
         toDoTask.title = taskTitle
+
+        taskList.addToTasks(toDoTask)
+
+        // не теряю ли я здесь созданный объект?
         completion(toDoTask)
         saveContext()
     }
 
-    func updateTask(with newTaskTitle: String, updatingTask: ToDoTask) {
+    func updateTask(with newTaskTitle: String, for updatingTask: ToDoTask) {
         updatingTask.title = newTaskTitle
         saveContext()
     }
@@ -82,47 +77,48 @@ class StorageManager {
         context.delete(task)
         saveContext()
     }
+}
 
-    func clearContext(_ tasks : [ToDoTask]) {
-        for task in tasks {
-            context.delete(task)
-        }
+// MARK: TaskList's methods
+extension StorageManager {
 
+    func createTaskList() {
+
+    }
+
+    func deleteTaskList() {
+
+    }
+
+    func editTaskList() {
+
+    }
+
+    func clearTaskList(_ task : ToDoTaskList) {
+        task.tasks = nil
         saveContext()
     }
+}
 
-    func resetCoreData() {
-        let persistentCoordinator = persistentContainer.persistentStoreCoordinator
-        guard let persistentStore = persistentCoordinator.persistentStores.first else { return }
-
-        try! persistentCoordinator.destroyPersistentStore(
-            at: persistentStore.url!,
-            ofType: persistentStore.type,
-            options: nil
-        )
-
-        UserDefaults.standard.set(false, forKey: "Preview")
-    }
-
-    // MARK: Preview method
+// MARK: Preview/Reset CD
+extension StorageManager {
     func setPreviewData() {
         if !UserDefaults.standard.bool(forKey: "Preview") {
-
             var tasks: [ToDoTask] = []
 
             for ind in 0...5 {
                 let task = ToDoTask(context: context)
-                task.title = "Title \(ind)"
+                task.title = "Задача \(ind)"
                 task.date = Date()
                 task.isComplete = false
-                task.note = "note \(ind)"
+                task.note = "заметка \(ind)"
 
                 tasks.append(task)
             }
 
             let _: ToDoTaskList = {
                 let tasksList = ToDoTaskList(context: context)
-                tasksList.title = "Preview List"
+                tasksList.title = "Превью список"
                 tasksList.date = Date()
 
                 tasksList.addToTasks(NSOrderedSet(array: tasks))
@@ -136,6 +132,19 @@ class StorageManager {
                 UserDefaults.standard.set(true, forKey: "Preview")
             }
         }
+    }
+
+    func resetCoreData() {
+        let persistentCoordinator = persistentContainer.persistentStoreCoordinator
+        guard let persistentStore = persistentCoordinator.persistentStores.first else { return }
+
+        try! persistentCoordinator.destroyPersistentStore(
+            at: persistentStore.url!,
+            ofType: persistentStore.type,
+            options: nil
+        )
+
+        UserDefaults.standard.set(false, forKey: "Preview")
     }
 }
 

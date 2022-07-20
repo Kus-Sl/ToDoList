@@ -19,13 +19,15 @@ class TaskListViewController: UITableViewController {
         title = taskList.title
     }
 
-    @IBAction func addNewTask(_ sender: UIBarButtonItem) {
+    @IBAction func createTask(_ sender: UIBarButtonItem) {
         createTask()
     }
 
-    @IBAction func clearContext(_ sender: UIBarButtonItem) {
-//        StorageManager.shared.clearContext(taskList)
-//        taskList = nil
+    @IBAction func editTasks(_ sender: UIBarButtonItem) {
+    }
+
+    @IBAction func clearTaskList(_ sender: UIBarButtonItem) {
+        StorageManager.shared.clearTaskList(taskList)
         tableView.reloadData()
     }
 }
@@ -37,10 +39,9 @@ extension TaskListViewController {
         let alert = UIAlertController.createAlert(withTitle: "Новая задача")
         alert.showAlert() { [self] taskTitle in
 
-            StorageManager.shared.saveNewTask(taskTitle) { newTask in
-//                taskList.append(newTask)
-//                let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
-//                tableView.insertRows(at: [cellIndex], with: .automatic)
+            StorageManager.shared.createTask(taskTitle, to: taskList) { newTask in
+                let cellIndex = IndexPath(row: (taskList.tasks?.count ?? 0) - 1, section: 0)
+                tableView.insertRows(at: [cellIndex], with: .automatic)
             }
         }
 
@@ -49,15 +50,25 @@ extension TaskListViewController {
 
     private func updateTask(for indexPath: IndexPath) {
 
+        // завернуть в метод
+        guard let updatingTask = taskList.tasks?[indexPath.row] as? ToDoTask else { return }
+
         let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
+        alert.showAlert(for: updatingTask) { [self] updatingTaskTitle in
 
-//        alert.showAlert(for: taskList[indexPath.row]) { [self] updatingTaskTitle in
-
-//            StorageManager.shared.updateTask(with: updatingTaskTitle, updatingTask: taskList[indexPath.row])
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//        }
+            StorageManager.shared.updateTask(with: updatingTaskTitle, for: updatingTask)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
 
         present(alert, animated: true)
+    }
+
+    private func deleteTask(for indexPath: IndexPath) {
+//         завернуть в метод
+        guard let deletingTask = taskList.tasks?[indexPath.row] as? ToDoTask else { return }
+
+        StorageManager.shared.deleteTask(deletingTask)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
 
@@ -84,20 +95,34 @@ extension TaskListViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-//            StorageManager.shared.deleteTask(taskList[indexPath.row])
-//            taskList.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.deleteTask(for: indexPath)
         }
+
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, isDone in
+            self.updateTask(for: indexPath)
+            isDone(true)
+        }
+
+        let doneAction = UIContextualAction(style: .normal, title: "Done") { _, _, isDone in
+//            StorageManager.shared.done(taskList)
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+            isDone(true)
+        }
+
+        editAction.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+
+        return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
     }
 }
 
 // MARK: - UITableViewDelegate
 extension TaskListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateTask(for: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

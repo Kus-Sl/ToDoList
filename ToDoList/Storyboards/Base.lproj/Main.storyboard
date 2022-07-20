@@ -147,9 +147,14 @@
                                     <action selector="addNewTask:" destination="S3O-nj-fhy" id="zuJ-u1-I69"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="edit" id="b5a-Fu-PEI">
+                                <connections>
+                                    <action selector="editTasks:" destination="S3O-nj-fhy" id="cq8-H7-cze"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="trash" id="KB3-SA-fwI">
                                 <connections>
-                                    <action selector="clearContext:" destination="S3O-nj-fhy" id="hM1-E7-pyj"/>
+                                    <action selector="clearTaskList:" destination="S3O-nj-fhy" id="wxa-sP-vwW"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
