@@ -23,6 +23,11 @@ class ListsViewController: UIViewController {
         StorageManager.shared.fetchData { tasksList in
             self.taskLists = tasksList
         }
+
+        // Test CoreData
+        StorageManager.shared.testFetchData { tasks in
+            tasks.forEach { print("YES?", $0.title!) }
+        }
     }
 
     @IBAction func createTaskListBarButtonTapped(_ sender: UIBarButtonItem) {
@@ -74,8 +79,12 @@ extension ListsViewController {
         present(alert, animated: true)
     }
 
-    private func deleteTaskList() {
+    private func deleteTaskList(with indexPath: IndexPath) {
+        let taskList = taskLists[indexPath.row]
 
+        StorageManager.shared.deleteTaskList(taskList)
+        taskLists.remove(at: indexPath.row)
+        tasksListTableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
 
@@ -120,7 +129,7 @@ extension ListsViewController: UITableViewDelegate {
         }
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
-//                        self.deleteTask(with: indexPath)
+            self.deleteTaskList(with: indexPath)
             if self.editTasksBarButton.title != "Ред." {
                 self.toggleEditBarButtonTitle()
             }

@@ -22,8 +22,9 @@ extension UIAlertController {
         let mainAction = UIAlertAction(title: nameMainAction, style: .default) { _ in
             guard let taskTitle = self.textFields?.first?.text, !taskTitle.isEmpty
             else { return }
-            guard let noteTitle = self.textFields?.last?.text, !noteTitle.isEmpty
+            guard let noteTitle = self.textFields?.last?.text
             else { return }
+
             mainAction(taskTitle, noteTitle)
         }
         

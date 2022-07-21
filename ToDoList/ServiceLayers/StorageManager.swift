@@ -29,6 +29,18 @@ class StorageManager {
         context = persistentContainer.viewContext
     }
 
+    func testFetchData(completion: ([ToDoTask]) -> ()) {
+        let fetchRequest = ToDoTask.fetchRequest()
+
+        do {
+            let tasks = try context.fetch(fetchRequest)
+            completion(tasks)
+        } catch let error {
+            print("Failed to fetch data", error)
+        }
+    }
+
+
     func fetchData(completion: ([ToDoTaskList]) -> ()) {
         let fetchRequest = ToDoTaskList.fetchRequest()
 
@@ -110,13 +122,14 @@ extension StorageManager {
         saveContext()
     }
 
-    func deleteTaskList() {
-
+    func deleteTaskList(_ taskList: ToDoTaskList) {
+        clearTaskList(taskList)
+        context.delete(taskList)
+        saveContext()
     }
 
     func clearTaskList(_ task : ToDoTaskList) {
-        // Удаляются ли сами объекты? Не зависают в базе?
-        task.tasks = nil
+        task.tasks?.forEach({ context.delete(($0 as! ToDoTask)) })
         saveContext()
     }
 }
