@@ -22,6 +22,10 @@ class ListsViewController: UIViewController {
             self.taskLists = tasksList
         }
     }
+
+    @IBAction func createTaskListBarButtonTapped(_ sender: UIBarButtonItem) {
+
+    }
 }
 
 // MARK: Navigation

@@ -26,7 +26,7 @@ class StorageManager {
     }()
 
     private init() {
-        context =  persistentContainer.viewContext
+        context = persistentContainer.viewContext
     }
 
     func fetchData(completion: ([ToDoTaskList]) -> ()) {
@@ -54,12 +54,14 @@ class StorageManager {
 
 // Task's methods
 extension StorageManager {
-    func createTask(_ taskTitle: String, to taskList: ToDoTaskList, completion: (ToDoTask) -> ()) {
+    func createTask(with taskTitle: String, and note: String, to taskList: ToDoTaskList, completion: (ToDoTask) -> ()) {
         //        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
         //        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
 
         let toDoTask = ToDoTask(context: context)
         toDoTask.title = taskTitle
+        toDoTask.note = note
+        toDoTask.date = Date()
 
         taskList.addToTasks(toDoTask)
 
@@ -68,8 +70,15 @@ extension StorageManager {
         saveContext()
     }
 
-    func updateTask(with newTaskTitle: String, for updatingTask: ToDoTask) {
-        updatingTask.title = newTaskTitle
+    func updateTask(with newTaskTitle: String, and newNote: String, for updatingTask: ToDoTask) {
+        if newTaskTitle != updatingTask.title {
+            updatingTask.title = newTaskTitle
+        }
+
+        if newNote != updatingTask.note {
+            updatingTask.note = newNote
+        }
+        
         saveContext()
     }
 
@@ -88,8 +97,12 @@ extension StorageManager {
 // MARK: TaskList's methods
 extension StorageManager {
 
-    func createTaskList() {
+    func createTaskList(_ listTitle: String, completion: (ToDoTaskList) -> ()) {
+        let taskList = ToDoTaskList(context: context)
+        taskList.title = listTitle
+        taskList.date = Date()
 
+        completion(taskList)
     }
 
     func deleteTaskList() {

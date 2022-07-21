@@ -105,8 +105,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Мои списки" largeTitleDisplayMode="never" id="F3Y-6d-IWF" userLabel="I">
-                        <barButtonItem key="leftBarButtonItem" title="Ред." id="EQb-Ec-9JS"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="r9X-3b-4pG"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="r9X-3b-4pG">
+                                <connections>
+                                    <action selector="createTaskListBarButtonTapped:" destination="yYr-pA-h0i" id="VAf-8k-aGY"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Ред." id="EQb-Ec-9JS"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="tasksListTableView" destination="TDs-eE-EEa" id="bkC-nK-CSI"/>

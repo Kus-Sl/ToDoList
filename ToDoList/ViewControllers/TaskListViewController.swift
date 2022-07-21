@@ -46,9 +46,9 @@ extension TaskListViewController {
     private func createTask() {
 
         let alert = UIAlertController.createAlert(withTitle: "Новая задача")
-        alert.showAlert() { [self] taskTitle in
+        alert.showAlert(for: nil) { [self] taskTitle, note in
 
-            StorageManager.shared.createTask(taskTitle, to: taskList) { task in
+            StorageManager.shared.createTask(with: taskTitle, and: note, to: taskList) { task in
                 currentTasks.insert(task, at: currentTasks.count)
                 let cellIndex = IndexPath(row: currentTasks.count - 1, section: 0)
                 tableView.insertRows(at: [cellIndex], with: .automatic)
@@ -62,9 +62,9 @@ extension TaskListViewController {
         let updatingTask = getTask(with: indexPath)
 
         let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
-        alert.showAlert(for: updatingTask) { [self] updatingTaskTitle in
+        alert.showAlert(for: updatingTask) { [self] updatingTaskTitle, updatingNote  in
 
-            StorageManager.shared.updateTask(with: updatingTaskTitle, for: updatingTask)
+            StorageManager.shared.updateTask(with: updatingTaskTitle, and: updatingNote, for: updatingTask)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
 
@@ -163,7 +163,6 @@ extension TaskListViewController {
         let doneTitle = indexPath.section == 0 ? "Выполнено" : "Не выполнено"
         let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
             self.switchTaskStatus(with: indexPath)
-            self.toggleEditBarButtonTitle()
             isDone(true)
         }
 
@@ -174,7 +173,7 @@ extension TaskListViewController {
     }
 
     override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        self.editTasksBarButton.title = "Ред."
+        toggleEditBarButtonTitle()
     }
 }
 
