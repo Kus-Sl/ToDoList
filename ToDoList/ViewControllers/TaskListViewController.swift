@@ -25,7 +25,7 @@ class TaskListViewController: UITableViewController {
         filterTaskList(taskList)
     }
 
-    @IBAction func createTask(_ sender: UIBarButtonItem) {
+    @IBAction func createTaskBarButtonTapped() {
         createTask()
     }
 
@@ -33,7 +33,7 @@ class TaskListViewController: UITableViewController {
         toggleEditMode(with: editTasksBarButton)
     }
 
-    @IBAction func clearTaskList(_ sender: UIBarButtonItem) {
+    @IBAction func clearTaskListBarButtonTapped() {
         StorageManager.shared.clearTaskList(taskList)
         currentTasks = []
         completedTasks = []
@@ -41,7 +41,7 @@ class TaskListViewController: UITableViewController {
     }
 }
 
-// MARK: CRUD methods
+// MARK: Task manangement
 extension TaskListViewController {
     private func createTask() {
 
@@ -199,6 +199,7 @@ extension TaskListViewController {
     private func toggleEditBarButtonTitle() {
         editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
     }
+
     private func filterTaskList(_ taskList: ToDoTaskList) {
         if let tasks = taskList.tasks?.compactMap({ $0 as? ToDoTask }) {
             currentTasks = tasks.filter { $0.isComplete == false }

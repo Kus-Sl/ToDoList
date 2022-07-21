@@ -150,7 +150,7 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="dsW-6I-3cz">
                                 <connections>
-                                    <action selector="createTask:" destination="S3O-nj-fhy" id="y6a-0j-Bpy"/>
+                                    <action selector="createTaskBarButtonTapped" destination="S3O-nj-fhy" id="F9y-3p-zP2"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Ред." id="b5a-Fu-PEI">
@@ -160,7 +160,7 @@
                             </barButtonItem>
                             <barButtonItem systemItem="trash" id="KB3-SA-fwI">
                                 <connections>
-                                    <action selector="clearTaskList:" destination="S3O-nj-fhy" id="wxa-sP-vwW"/>
+                                    <action selector="clearTaskListBarButtonTapped" destination="S3O-nj-fhy" id="G7W-ia-lus"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
