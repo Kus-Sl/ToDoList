@@ -149,7 +149,7 @@
                             </barButtonItem>
                             <barButtonItem title="Ред." id="b5a-Fu-PEI">
                                 <connections>
-                                    <action selector="editTasks:" destination="S3O-nj-fhy" id="cq8-H7-cze"/>
+                                    <action selector="editTasksBarButtonTapped" destination="S3O-nj-fhy" id="NW3-Y3-Qc1"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="trash" id="KB3-SA-fwI">
@@ -160,6 +160,9 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="editTasksBarButton" destination="b5a-Fu-PEI" id="tH8-pd-U6M"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="paU-6v-GTO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

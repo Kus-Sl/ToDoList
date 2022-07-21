@@ -77,6 +77,12 @@ extension StorageManager {
         context.delete(task)
         saveContext()
     }
+
+    func switchTaskStatus(_ task: ToDoTask) -> Bool {
+        task.isComplete.toggle()
+        saveContext()
+        return task.isComplete
+    }
 }
 
 // MARK: TaskList's methods

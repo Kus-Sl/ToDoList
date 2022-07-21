@@ -9,6 +9,8 @@ import UIKit
 
 class TaskListViewController: UITableViewController {
 
+    @IBOutlet weak var editTasksBarButton: UIBarButtonItem!
+
     var taskList: ToDoTaskList!
 
     private var currentTasks: [ToDoTask] = []
@@ -20,19 +22,15 @@ class TaskListViewController: UITableViewController {
         super.viewDidLoad()
 
         title = taskList.title
-
-        if let tasks = taskList.tasks?.compactMap({ $0 as? ToDoTask }) {
-            currentTasks = tasks.filter { $0.isComplete == false }
-            completedTasks = tasks.filter { $0.isComplete == true }
-        }
+        filterTaskList(taskList)
     }
 
     @IBAction func createTask(_ sender: UIBarButtonItem) {
         createTask()
     }
 
-    @IBAction func editTasks(_ sender: UIBarButtonItem) {
-        toggleEditMode(with: sender)
+    @IBAction func editTasksBarButtonTapped() {
+        toggleEditMode(with: editTasksBarButton)
     }
 
     @IBAction func clearTaskList(_ sender: UIBarButtonItem) {
@@ -60,7 +58,7 @@ extension TaskListViewController {
         present(alert, animated: true)
     }
 
-    private func updateTask(for indexPath: IndexPath) {
+    private func updateTask(with indexPath: IndexPath) {
         let updatingTask = getTask(with: indexPath)
 
         let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
@@ -73,13 +71,40 @@ extension TaskListViewController {
         present(alert, animated: true)
     }
 
-    private func deleteTask(for indexPath: IndexPath) {
+    private func deleteTask(with indexPath: IndexPath) {
         let deletingTask = getTask(with: indexPath)
 
-        // Удалить из доп списка
-        currentTasks.remove(at: indexPath.row)
+        /* Проверял здесь массивы. И после удаления из контекста элемент удаляется из всех массивов. И из currentTasks / completedTasks и из taskList. Но вот в таком случае при удалении строки (deleteRows) вылетает ошибка. И мне приходится вручную удалять элемент из currentTasks / completedTasks массивов. C чем это может быть связано? С тем, что контекст сохраняет изменения не сразу, а с какой-то задержкой?
+         */
+
         StorageManager.shared.deleteTask(deletingTask)
+
+        if indexPath.section == 0 {
+            currentTasks.remove(at: indexPath.row)
+        } else {
+            completedTasks.remove(at: indexPath.row)
+        }
+
         tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+
+    private func switchTaskStatus(with indexPath: IndexPath) {
+        let switchingTask = getTask(with: indexPath)
+
+        if StorageManager.shared.switchTaskStatus(switchingTask) {
+            currentTasks.remove(at: indexPath.row)
+//            completedTasks.append(switchingTask) //никакой разницы
+            completedTasks.insert(switchingTask, at: 0)
+
+            let cellIndex = IndexPath(row: 0, section: 1)
+            tableView.moveRow(at: indexPath, to: cellIndex)
+        } else {
+            completedTasks.remove(at: indexPath.row)
+            currentTasks.append(switchingTask)
+
+            let cellIndex = IndexPath(row: currentTasks.count - 1, section: 0)
+            tableView.moveRow(at: indexPath, to: cellIndex)
+        }
     }
 }
 
@@ -103,7 +128,7 @@ extension TaskListViewController {
         cell.contentConfiguration = {
             var content = cell.defaultContentConfiguration()
 
-            let task = indexPath.section == 0 ? currentTasks[indexPath.row] : completedTasks[indexPath.row]
+            let task = getTask(with: indexPath)
             content.text = task.title
             content.secondaryText = task.note
 
@@ -112,21 +137,33 @@ extension TaskListViewController {
 
         return cell
     }
+}
+
+// MARK: UITableViewDelegate
+extension TaskListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
+        toggleEditBarButtonTitle()
+
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
-            self.deleteTask(for: indexPath)
+            self.deleteTask(with: indexPath)
+            self.toggleEditBarButtonTitle()
         }
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
-            self.updateTask(for: indexPath)
+            self.updateTask(with: indexPath)
+            self.toggleEditBarButtonTitle()
             isDone(true)
         }
 
-        let doneAction = UIContextualAction(style: .normal, title: "Выполнено") { _, _, isDone in
-            // StorageManager.shared.done(taskList)
-            // tableView.reloadRows(at: [indexPath], with: .automatic)
+        let doneTitle = indexPath.section == 0 ? "Выполнено" : "Не выполнено"
+        let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
+            self.switchTaskStatus(with: indexPath)
+            self.toggleEditBarButtonTitle()
             isDone(true)
         }
 
@@ -135,32 +172,38 @@ extension TaskListViewController {
 
         return UISwipeActionsConfiguration(actions: [doneAction, updateAction, deleteAction])
     }
-}
 
-// MARK: UITableViewDelegate
-extension TaskListViewController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        self.editTasksBarButton.title = "Ред."
     }
 }
 
 // MARK: Private methods
 extension TaskListViewController {
     private func getTask(with indexPath: IndexPath) -> ToDoTask {
-        let list = indexPath.section == 0 ? currentTasks : completedTasks
-        let task =  list[indexPath.row]
-
-        return task
+        indexPath.section == 0
+        ? currentTasks[indexPath.row]
+        : completedTasks[indexPath.row]
     }
 
     private func toggleEditMode(with actionItem: UIBarButtonItem) {
         switch actionItem.title {
         case "Ред.":
-            actionItem.title = "Готово"
+            toggleEditBarButtonTitle()
             tableView.setEditing(true, animated: true)
         default:
-            actionItem.title = "Ред."
+            toggleEditBarButtonTitle()
             tableView.setEditing(false, animated: true)
+        }
+    }
+
+    private func toggleEditBarButtonTitle() {
+        editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
+    }
+    private func filterTaskList(_ taskList: ToDoTaskList) {
+        if let tasks = taskList.tasks?.compactMap({ $0 as? ToDoTask }) {
+            currentTasks = tasks.filter { $0.isComplete == false }
+            completedTasks = tasks.filter { $0.isComplete == true }
         }
     }
 }
