@@ -105,15 +105,17 @@ extension StorageManager {
         completion(taskList)
     }
 
+    func updateTaskList(with newListTitle: String, for updatingList: ToDoTaskList) {
+        updatingList.title = newListTitle
+        saveContext()
+    }
+
     func deleteTaskList() {
 
     }
 
-    func editTaskList() {
-
-    }
-
     func clearTaskList(_ task : ToDoTaskList) {
+        // Удаляются ли сами объекты? Не зависают в базе?
         task.tasks = nil
         saveContext()
     }

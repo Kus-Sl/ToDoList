@@ -61,8 +61,17 @@ extension ListsViewController {
         present(alert, animated: true)
     }
 
-    private func updateTaskList() {
+    private func updateTaskList(with indexPath: IndexPath) {
+        let taskList = taskLists[indexPath.row]
 
+        let alert = UIAlertController.createAlert(withTitle: "Обновить список")
+        alert.showAlert(for: taskList) { newListTitle in
+
+            StorageManager.shared.updateTaskList(with: newListTitle, for: taskList)
+            self.tasksListTableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+
+        present(alert, animated: true)
     }
 
     private func deleteTaskList() {
@@ -118,7 +127,7 @@ extension ListsViewController: UITableViewDelegate {
         }
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
-            //            self.updateTask(with: indexPath)
+            self.updateTaskList(with: indexPath)
             self.toggleEditMode(with: self.editTasksBarButton)
             isDone(true)
         }
