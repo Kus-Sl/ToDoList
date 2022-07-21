@@ -46,12 +46,12 @@ extension TaskListViewController {
     private func createTask() {
 
         let alert = UIAlertController.createAlert(withTitle: "Новая задача")
-        alert.showAlert(for: nil) { [self] taskTitle, note in
+        alert.showAlert(for: nil) { taskTitle, note in
 
-            StorageManager.shared.createTask(with: taskTitle, and: note, to: taskList) { task in
-                currentTasks.insert(task, at: currentTasks.count)
-                let cellIndex = IndexPath(row: currentTasks.count - 1, section: 0)
-                tableView.insertRows(at: [cellIndex], with: .automatic)
+            StorageManager.shared.createTask(with: taskTitle, and: note, to: self.taskList) { task in
+                self.currentTasks.insert(task, at: self.currentTasks.count)
+                let cellIndex = IndexPath(row: self.currentTasks.count - 1, section: 0)
+                self.tableView.insertRows(at: [cellIndex], with: .automatic)
             }
         }
 
@@ -62,10 +62,10 @@ extension TaskListViewController {
         let updatingTask = getTask(with: indexPath)
 
         let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
-        alert.showAlert(for: updatingTask) { [self] updatingTaskTitle, updatingNote  in
+        alert.showAlert(for: updatingTask) { updatingTaskTitle, updatingNote  in
 
             StorageManager.shared.updateTask(with: updatingTaskTitle, and: updatingNote, for: updatingTask)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
 
         present(alert, animated: true)
@@ -146,17 +146,20 @@ extension TaskListViewController {
     }
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        toggleEditBarButtonTitle()
+        if editTasksBarButton.title == "Ред." {
+            toggleEditBarButtonTitle()
+        }
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
             self.deleteTask(with: indexPath)
-            self.toggleEditBarButtonTitle()
+            if self.editTasksBarButton.title == "Ред." {
+                self.toggleEditBarButtonTitle()
+            }
         }
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
             self.updateTask(with: indexPath)
-            self.toggleEditBarButtonTitle()
+            self.toggleEditMode(with: self.editTasksBarButton)
             isDone(true)
         }
 
@@ -173,7 +176,9 @@ extension TaskListViewController {
     }
 
     override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        toggleEditBarButtonTitle()
+        if editTasksBarButton.title != "Ред." {
+            toggleEditBarButtonTitle()
+        }
     }
 }
 

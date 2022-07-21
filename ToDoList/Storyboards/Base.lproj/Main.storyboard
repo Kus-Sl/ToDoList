@@ -111,10 +111,15 @@
                                     <action selector="createTaskListBarButtonTapped:" destination="yYr-pA-h0i" id="VAf-8k-aGY"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Ред." id="EQb-Ec-9JS"/>
+                            <barButtonItem title="Ред." id="EQb-Ec-9JS">
+                                <connections>
+                                    <action selector="editTasksBarButtonTapped" destination="yYr-pA-h0i" id="Rhx-v1-Dzz"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="editTasksBarButton" destination="EQb-Ec-9JS" id="nRd-by-8XT"/>
                         <outlet property="tasksListTableView" destination="TDs-eE-EEa" id="bkC-nK-CSI"/>
                     </connections>
                 </viewController>

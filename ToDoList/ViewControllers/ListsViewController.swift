@@ -11,6 +11,8 @@ class ListsViewController: UIViewController {
 
     @IBOutlet weak var tasksListTableView: UITableView!
 
+    @IBOutlet weak var editTasksBarButton: UIBarButtonItem!
+
     private let cellID = "ListCell"
 
     private var taskLists: [ToDoTaskList] = []
@@ -25,6 +27,10 @@ class ListsViewController: UIViewController {
 
     @IBAction func createTaskListBarButtonTapped(_ sender: UIBarButtonItem) {
         createTaskList()
+    }
+
+    @IBAction func editTasksBarButtonTapped() {
+        toggleEditMode(with: editTasksBarButton)
     }
 }
 
@@ -62,10 +68,6 @@ extension ListsViewController {
     private func deleteTaskList() {
 
     }
-
-    
-
-
 }
 
 
@@ -100,6 +102,61 @@ extension ListsViewController: UITableViewDataSource {
 // MARK: UITableViewDelegate
 extension ListsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tasksListTableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if editTasksBarButton.title == "Ред." {
+            toggleEditBarButtonTitle()
+        }
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
+//                        self.deleteTask(with: indexPath)
+            if self.editTasksBarButton.title != "Ред." {
+                self.toggleEditBarButtonTitle()
+            }
+        }
+
+        let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
+            //            self.updateTask(with: indexPath)
+            self.toggleEditMode(with: self.editTasksBarButton)
+            isDone(true)
+        }
+
+        let doneTitle = indexPath.section == 0 ? "Выполнено" : "Не выполнено"
+        let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
+            //            self.switchTaskStatus(with: indexPath)
+            isDone(true)
+        }
+
+        updateAction.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+
+        return UISwipeActionsConfiguration(actions: [doneAction, updateAction, deleteAction])
+    }
+
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        if editTasksBarButton.title != "Ред." {
+            toggleEditBarButtonTitle()
+        }
     }
 }
+
+// MARK: Private methods
+extension ListsViewController {
+    private func toggleEditMode(with actionItem: UIBarButtonItem) {
+        switch actionItem.title {
+        case "Ред.":
+            toggleEditBarButtonTitle()
+            tasksListTableView.setEditing(true, animated: true)
+        default:
+            toggleEditBarButtonTitle()
+            tasksListTableView.setEditing(false, animated: true)
+        }
+    }
+
+    private func toggleEditBarButtonTitle() {
+        editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
+    }
+}
+
