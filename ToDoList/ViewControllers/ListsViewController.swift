@@ -24,7 +24,7 @@ class ListsViewController: UIViewController {
     }
 
     @IBAction func createTaskListBarButtonTapped(_ sender: UIBarButtonItem) {
-
+        createTaskList()
     }
 }
 
@@ -37,6 +37,45 @@ extension ListsViewController {
         vc.taskList = taskLists[currentIndexPath.row]
     }
 }
+
+// MARK: TaskList management
+extension ListsViewController {
+    private func createTaskList() {
+
+        let alert = UIAlertController.createAlert(withTitle: "Новый список")
+        alert.showAlert(for: nil) { listTitle in
+
+            StorageManager.shared.createTaskList(listTitle) { newList in
+                self.taskLists.append(newList)
+                let cellIndex = IndexPath(row: self.taskLists.count - 1, section: 0)
+                self.tasksListTableView.insertRows(at: [cellIndex], with: .automatic)
+            }
+        }
+
+        present(alert, animated: true)
+    }
+
+    private func updateTaskList() {
+
+    }
+
+    private func deleteTaskList() {
+
+    }
+
+    
+
+
+}
+
+
+
+
+
+
+
+
+
 
 // MARK: UITableViewDataSource
 extension ListsViewController: UITableViewDataSource {
@@ -55,5 +94,12 @@ extension ListsViewController: UITableViewDataSource {
         }()
 
         return cell
+    }
+}
+
+// MARK: UITableViewDelegate
+extension ListsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tasksListTableView.deselectRow(at: indexPath, animated: true)
     }
 }

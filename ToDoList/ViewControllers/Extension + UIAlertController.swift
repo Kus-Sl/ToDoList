@@ -41,7 +41,22 @@ extension UIAlertController {
     }
 
     func showAlert(for list: ToDoTaskList?, mainAction: @escaping (String) -> ()) {
-        print("yes")
+        let nameMainAction = list == nil ? "Сохранить" : "Обновить"
+
+        let cancelAction = UIAlertAction(title: "Отменить", style: .destructive)
+
+        let mainAction = UIAlertAction(title: nameMainAction, style: .default) { _ in
+            guard let taskTitle = self.textFields?.first?.text, !taskTitle.isEmpty
+            else { return }
+            mainAction(taskTitle)
+        }
+
+        addAction(mainAction)
+        addAction(cancelAction)
+        addTextField { textField in
+            textField.placeholder =  "\(nameMainAction) список"
+            textField.text = list?.title
+        }
     }
 }
 
