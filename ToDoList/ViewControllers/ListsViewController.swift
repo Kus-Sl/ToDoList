@@ -149,7 +149,11 @@ extension ListsViewController: UITableViewDelegate {
             isDone(true)
         }
 
-        let doneAction = UIContextualAction(style: .normal, title: "Завершить") { _, _, isDone in
+        let doneActionTitle = taskLists[indexPath.row].currentTaskCount != 0
+        ? "Выполнено"
+        : "Не выполнено"
+
+        let doneAction = UIContextualAction(style: .normal, title: doneActionTitle) { _, _, isDone in
             self.switchTaskListStatus(with: indexPath)
             self.tasksListTableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)

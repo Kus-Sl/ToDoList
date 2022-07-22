@@ -82,7 +82,6 @@ extension StorageManager {
         taskList.addToTasks(toDoTask)
         taskList.currentTaskCount += 1
 
-        // не теряю ли я здесь созданный объект?
         completion(toDoTask)
         saveContext()
     }
