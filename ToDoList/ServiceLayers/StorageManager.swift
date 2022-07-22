@@ -161,6 +161,8 @@ extension StorageManager {
 
 // MARK: Preview/Reset CD
 extension StorageManager {
+
+    // Не стал выносить в DataManager, т.к. тогда там бы пришлось импортировать CD. Или стоило?
     func setPreviewData() {
         if !UserDefaults.standard.bool(forKey: "Preview") {
             var tasks: [ToDoTask] = []

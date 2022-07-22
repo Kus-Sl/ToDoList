@@ -167,7 +167,7 @@ extension ListsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         // Разобраться с моментом, когда в обычном моде дергаю строки поочереди
-        if editTasksBarButton.title != "Ред." {
+        if editTasksBarButton.title != "Ред." && !tableView.isEditing {
             toggleEditBarButtonTitle()
         }
     }
