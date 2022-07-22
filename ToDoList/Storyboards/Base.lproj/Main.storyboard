@@ -50,9 +50,12 @@
                                     <constraint firstAttribute="height" constant="40" id="IN8-mi-Fpk"/>
                                 </constraints>
                                 <segments>
-                                    <segment title="Date"/>
-                                    <segment title="A-Z"/>
+                                    <segment title="Дата"/>
+                                    <segment title="А-Я"/>
                                 </segments>
+                                <connections>
+                                    <action selector="sortedControlChanged:" destination="yYr-pA-h0i" eventType="valueChanged" id="rxu-pD-dY7"/>
+                                </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TDs-eE-EEa">
                                 <rect key="frame" x="0.0" y="146" width="414" height="750"/>

@@ -21,15 +21,7 @@ class ListsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        StorageManager.shared.fetchData { tasksList in
-            self.taskLists = tasksList
-        }
-
-        // Test CoreData leaks
-        StorageManager.shared.testFetchData { tasks, lists in
-            tasks.forEach { print("TASK", $0.title!) }
-            lists.forEach { print("LIST", $0.title!) }
-      }
+        fetchData(sortBy: "date")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +37,13 @@ class ListsViewController: UIViewController {
 
     @IBAction func editTasksBarButtonTapped() {
         toggleEditMode(with: editTasksBarButton)
+    }
+
+    @IBAction func sortedControlChanged(_ sender: UISegmentedControl) {
+        sender.selectedSegmentIndex == 0
+        ? fetchData(sortBy: "date")
+        : fetchData(sortBy: "title")
+        tasksListTableView.reloadData()
     }
 }
 
@@ -172,6 +171,18 @@ extension ListsViewController: UITableViewDelegate {
 
 // MARK: Private methods
 extension ListsViewController {
+    private func fetchData(sortBy parameter: String) {
+        StorageManager.shared.fetchData(sortBy: parameter) { tasksList in
+            self.taskLists = tasksList
+        }
+
+        // Test CoreData leaks
+        StorageManager.shared.testFetchData { tasks, lists in
+            tasks.forEach { print("TASK", $0.title!) }
+            lists.forEach { print("LIST", $0.title!) }
+      }
+    }
+
     private func toggleEditMode(with actionItem: UIBarButtonItem) {
         switch actionItem.title {
         case "Ред.":

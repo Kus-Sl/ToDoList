@@ -28,21 +28,11 @@ class StorageManager {
         context = persistentContainer.viewContext
     }
 
-    func testFetchData(completion: ([ToDoTask], [ToDoTaskList]) -> ()) {
-        let fetchRequest = ToDoTask.fetchRequest()
-        let fetchRequestList = ToDoTaskList.fetchRequest()
+    func fetchData(sortBy parameter: String, completion: ([ToDoTaskList]) -> ()) {
 
-        do {
-            let tasks = try context.fetch(fetchRequest)
-            let lists = try context.fetch(fetchRequestList)
-            completion(tasks, lists)
-        } catch let error {
-            print("Failed to fetch data", error)
-        }
-    }
-
-    func fetchData(completion: ([ToDoTaskList]) -> ()) {
+        let sortDescriptor = NSSortDescriptor(key: parameter, ascending: true)
         let fetchRequest = ToDoTaskList.fetchRequest()
+        fetchRequest.sortDescriptors = [sortDescriptor]
 
         do {
             let tasksList = try context.fetch(fetchRequest)
@@ -60,6 +50,20 @@ class StorageManager {
                 let error = error as NSError
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+        }
+    }
+
+    // Test CoreData Leaks
+    func testFetchData(completion: ([ToDoTask], [ToDoTaskList]) -> ()) {
+        let fetchRequest = ToDoTask.fetchRequest()
+        let fetchRequestList = ToDoTaskList.fetchRequest()
+
+        do {
+            let tasks = try context.fetch(fetchRequest)
+            let lists = try context.fetch(fetchRequestList)
+            completion(tasks, lists)
+        } catch let error {
+            print("Failed to fetch data", error)
         }
     }
 }
@@ -125,6 +129,7 @@ extension StorageManager {
         taskList.date = Date()
 
         completion(taskList)
+        saveContext()
     }
 
     func updateTaskList(with newListTitle: String, for updatingList: ToDoTaskList) {
