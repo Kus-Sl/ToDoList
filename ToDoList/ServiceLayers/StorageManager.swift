@@ -142,8 +142,9 @@ extension StorageManager {
         saveContext()
     }
 
-    func clearTaskList(_ task : ToDoTaskList) {
-        task.tasks?.forEach { context.delete($0 as! ToDoTask) }
+    func clearTaskList(_ tasklist : ToDoTaskList) {
+        tasklist.tasks?.forEach { context.delete($0 as! ToDoTask) }
+        tasklist.currentTaskCount = 0
         saveContext()
     }
 
