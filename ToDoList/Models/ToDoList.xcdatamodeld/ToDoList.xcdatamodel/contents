@@ -8,12 +8,13 @@
         <relationship name="taskList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ToDoTaskList" inverseName="tasks" inverseEntity="ToDoTaskList"/>
     </entity>
     <entity name="ToDoTaskList" representedClassName="ToDoTaskList" syncable="YES" codeGenerationType="class">
+        <attribute name="currentTaskCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ToDoTask" inverseName="taskList" inverseEntity="ToDoTask"/>
     </entity>
     <elements>
         <element name="ToDoTask" positionX="-255.3125" positionY="-72.27734375" width="128" height="118"/>
-        <element name="ToDoTaskList" positionX="-640.41015625" positionY="-156.3359375" width="128" height="88"/>
+        <element name="ToDoTaskList" positionX="-640.41015625" positionY="-156.3359375" width="128" height="89"/>
     </elements>
 </model>

@@ -16,6 +16,7 @@ class ListsViewController: UIViewController {
     private let cellID = "ListCell"
 
     private var taskLists: [ToDoTaskList] = []
+    private var indexUnwindTaskList: IndexPath!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +25,17 @@ class ListsViewController: UIViewController {
             self.taskLists = tasksList
         }
 
-        // Test CoreData
-        StorageManager.shared.testFetchData { tasks in
-            tasks.forEach { print("YES?", $0.title!) }
-        }
+        // Test CoreData leaks
+//        StorageManager.shared.testFetchData { tasks in
+//            tasks.forEach { print("YES?", $0.title!) }
+//      }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        guard let index = indexUnwindTaskList else { return }
+        tasksListTableView.reloadRows(at: [index], with: .automatic)
     }
 
     @IBAction func createTaskListBarButtonTapped(_ sender: UIBarButtonItem) {
@@ -46,6 +54,7 @@ extension ListsViewController {
         guard let vc = segue.destination as? TaskListViewController else { return }
 
         vc.taskList = taskLists[currentIndexPath.row]
+        indexUnwindTaskList = currentIndexPath
     }
 }
 
@@ -86,16 +95,14 @@ extension ListsViewController {
         taskLists.remove(at: indexPath.row)
         tasksListTableView.deleteRows(at: [indexPath], with: .automatic)
     }
+
+    private func switchTaskListStatus(with indexPath: IndexPath) {
+        let taskList = taskLists[indexPath.row]
+
+        let status = taskList.currentTaskCount == 0
+        StorageManager.shared.switchTaskListStatus(taskList, from: status)
+    }
 }
-
-
-
-
-
-
-
-
-
 
 // MARK: UITableViewDataSource
 extension ListsViewController: UITableViewDataSource {
@@ -105,11 +112,12 @@ extension ListsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let taskList = taskLists[indexPath.row]
 
         cell.contentConfiguration = {
             var content = cell.defaultContentConfiguration()
-            content.text = taskLists[indexPath.row].title
-            content.secondaryText = "1"
+            content.text = taskList.title
+            content.secondaryText = String(taskList.currentTaskCount)
             return content
         }()
 
@@ -141,9 +149,9 @@ extension ListsViewController: UITableViewDelegate {
             isDone(true)
         }
 
-        let doneTitle = indexPath.section == 0 ? "Выполнено" : "Не выполнено"
-        let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
-            //            self.switchTaskStatus(with: indexPath)
+        let doneAction = UIContextualAction(style: .normal, title: "Завершить") { _, _, isDone in
+            self.switchTaskListStatus(with: indexPath)
+            self.tasksListTableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
         }
 
@@ -154,6 +162,7 @@ extension ListsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        // Разобраться с моментом, когда в обычном моде дергаю строки поочереди
         if editTasksBarButton.title != "Ред." {
             toggleEditBarButtonTitle()
         }

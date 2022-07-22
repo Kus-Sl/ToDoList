@@ -12,7 +12,6 @@ class StorageManager {
 
     static let shared = StorageManager()
 
-    private let entityName = "ToDoTask"
     private let context: NSManagedObjectContext
 
     private var persistentContainer: NSPersistentContainer = {
@@ -39,7 +38,6 @@ class StorageManager {
             print("Failed to fetch data", error)
         }
     }
-
 
     func fetchData(completion: ([ToDoTaskList]) -> ()) {
         let fetchRequest = ToDoTaskList.fetchRequest()
@@ -76,6 +74,7 @@ extension StorageManager {
         toDoTask.date = Date()
 
         taskList.addToTasks(toDoTask)
+        taskList.currentTaskCount += 1
 
         // не теряю ли я здесь созданный объект?
         completion(toDoTask)
@@ -96,11 +95,20 @@ extension StorageManager {
 
     func deleteTask(_ task: ToDoTask) {
         context.delete(task)
+        task.taskList?.currentTaskCount -= 1
         saveContext()
     }
 
     func switchTaskStatus(_ task: ToDoTask) -> Bool {
+
+        if task.isComplete {
+            task.taskList?.currentTaskCount += 1
+        } else {
+            task.taskList?.currentTaskCount -= 1
+        }
+
         task.isComplete.toggle()
+
         saveContext()
         return task.isComplete
     }
@@ -129,7 +137,18 @@ extension StorageManager {
     }
 
     func clearTaskList(_ task : ToDoTaskList) {
-        task.tasks?.forEach({ context.delete(($0 as! ToDoTask)) })
+        task.tasks?.forEach { context.delete($0 as! ToDoTask) }
+        saveContext()
+    }
+
+    func switchTaskListStatus(_ taskList: ToDoTaskList, from status: Bool) {
+        taskList.tasks?.forEach { ($0 as! ToDoTask).isComplete = !status }
+
+        if status {
+            taskList.currentTaskCount = Int64(taskList.tasks!.count)
+        } else {
+            taskList.currentTaskCount = 0
+        }
         saveContext()
     }
 }
