@@ -26,9 +26,10 @@ class ListsViewController: UIViewController {
         }
 
         // Test CoreData leaks
-//        StorageManager.shared.testFetchData { tasks in
-//            tasks.forEach { print("YES?", $0.title!) }
-//      }
+        StorageManager.shared.testFetchData { tasks, lists in
+            tasks.forEach { print("TASK", $0.title!) }
+            lists.forEach { print("LIST", $0.title!) }
+      }
     }
 
     override func viewWillAppear(_ animated: Bool) {

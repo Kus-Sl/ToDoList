@@ -28,12 +28,14 @@ class StorageManager {
         context = persistentContainer.viewContext
     }
 
-    func testFetchData(completion: ([ToDoTask]) -> ()) {
+    func testFetchData(completion: ([ToDoTask], [ToDoTaskList]) -> ()) {
         let fetchRequest = ToDoTask.fetchRequest()
+        let fetchRequestList = ToDoTaskList.fetchRequest()
 
         do {
             let tasks = try context.fetch(fetchRequest)
-            completion(tasks)
+            let lists = try context.fetch(fetchRequestList)
+            completion(tasks, lists)
         } catch let error {
             print("Failed to fetch data", error)
         }
