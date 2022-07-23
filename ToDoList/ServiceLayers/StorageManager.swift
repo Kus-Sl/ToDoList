@@ -162,38 +162,26 @@ extension StorageManager {
 
 // MARK: Preview/Reset CD
 extension StorageManager {
-
-    // Не стал выносить в DataManager, т.к. тогда там бы пришлось импортировать CD. Или стоило?
-    func setPreviewData() {
-        if !UserDefaults.standard.bool(forKey: "Preview") {
-            var tasks: [ToDoTask] = []
-
-            for ind in 0...5 {
-                let task = ToDoTask(context: context)
-                task.title = "Задача \(ind)"
-                task.date = Date()
-                task.isComplete = false
-                task.note = "заметка \(ind)"
-
-                tasks.append(task)
-            }
-
-            let _: ToDoTaskList = {
-                let tasksList = ToDoTaskList(context: context)
-                tasksList.title = "Превью список"
-                tasksList.date = Date()
-
-                tasksList.addToTasks(NSOrderedSet(array: tasks))
-
-                return tasksList
-
-            }()
-
-            DispatchQueue.main.async {
-                StorageManager.shared.saveContext()
-                UserDefaults.standard.set(true, forKey: "Preview")
-            }
+    func createPreviewTaskList() {
+        var tasks: [ToDoTask] = []
+        for _ in 0...5 {
+            let task = ToDoTask(context: context)
+            task.title = "Превью задача"
+            task.date = Date()
+            task.isComplete = false
+            task.note = "Превью заметка"
+            tasks.append(task)
         }
+
+        let _: ToDoTaskList = {
+            let list = ToDoTaskList(context: context)
+            list.title = "Превью список"
+            list.date = Date()
+
+            list.addToTasks(NSOrderedSet(array: tasks))
+
+            return list
+        }()
     }
 
     func resetCoreData() {
@@ -209,4 +197,3 @@ extension StorageManager {
         UserDefaults.standard.set(false, forKey: "Preview")
     }
 }
-
