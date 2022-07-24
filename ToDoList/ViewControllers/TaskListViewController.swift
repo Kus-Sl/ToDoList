@@ -8,7 +8,6 @@
 import UIKit
 
 class TaskListViewController: UITableViewController {
-
     @IBOutlet weak var editTasksBarButton: UIBarButtonItem!
 
     var taskList: ToDoTaskList!
@@ -22,7 +21,7 @@ class TaskListViewController: UITableViewController {
         super.viewDidLoad()
 
         title = taskList.title
-        filterTaskList(taskList)
+        filter(taskList: taskList)
     }
 
     @IBAction func createTaskBarButtonTapped() {
@@ -58,8 +57,6 @@ extension TaskListViewController {
         present(alert, animated: true)
     }
 
-
-    // Переименовано
     private func updateTask(with indexPath: IndexPath) {
         let updatingTask = getTask(with: indexPath)
 
@@ -73,13 +70,10 @@ extension TaskListViewController {
         present(alert, animated: true)
     }
 
-    // Переименовано
     private func deleteTask(with indexPath: IndexPath) {
         let deletingTask = getTask(with: indexPath)
         StorageManager.shared.delete(task: deletingTask)
 
-
-        // ОСТАНОВИЛСЯ ЗДЕСЬ. Разобраться с этими элсами
         if indexPath.section == 0 {
             currentTasks.remove(at: indexPath.row)
         } else {
@@ -204,7 +198,7 @@ extension TaskListViewController {
         editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
     }
 
-    private func filterTaskList(_ taskList: ToDoTaskList) {
+    private func filter(taskList: ToDoTaskList) {
         if let tasks = taskList.tasks?.compactMap({ $0 as? ToDoTask }) {
             currentTasks = tasks.filter { $0.isComplete == false }
             completedTasks = tasks.filter { $0.isComplete == true }

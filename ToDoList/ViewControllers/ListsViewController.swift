@@ -8,9 +8,7 @@
 import UIKit
 
 class ListsViewController: UIViewController {
-
     @IBOutlet weak var tasksListTableView: UITableView!
-
     @IBOutlet weak var editTasksBarButton: UIBarButtonItem!
 
     private let cellID = "ListCell"
@@ -160,14 +158,14 @@ extension ListsViewController: UITableViewDelegate {
 // MARK: Private methods
 extension ListsViewController {
     private func fetchData(sortBy parameter: String) {
-        StorageManager.shared.fetchData(sortBy: parameter) { tasksList in
-            self.taskLists = tasksList
+        StorageManager.shared.fetchData(sortBy: parameter) { taskLists in
+            self.taskLists = taskLists
         }
 
         // Test CoreData leaks
-        StorageManager.shared.testFetchData { tasks, lists in
+        StorageManager.shared.testFetchData { tasks, taskLists in
             tasks.forEach { print("TASK", $0.title!) }
-            lists.forEach { print("LIST", $0.title!) }
+            taskLists.forEach { print("LIST", $0.title!) }
       }
     }
 
@@ -186,4 +184,3 @@ extension ListsViewController {
         editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
     }
 }
-
