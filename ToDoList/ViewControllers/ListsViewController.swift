@@ -65,7 +65,7 @@ extension ListsViewController {
         let alert = UIAlertController.createAlert(withTitle: "Новый список")
         alert.showAlert(for: nil) { listTitle in
 
-            StorageManager.shared.createTaskList(listTitle) { newList in
+            StorageManager.shared.createTaskList(with: listTitle) { newList in
                 self.taskLists.append(newList)
                 let cellIndex = IndexPath(row: self.taskLists.count - 1, section: 0)
                 self.tasksListTableView.insertRows(at: [cellIndex], with: .automatic)
@@ -79,9 +79,9 @@ extension ListsViewController {
         let taskList = taskLists[indexPath.row]
 
         let alert = UIAlertController.createAlert(withTitle: "Обновить список")
-        alert.showAlert(for: taskList) { newListTitle in
+        alert.showAlert(for: taskList) { newTitle in
 
-            StorageManager.shared.updateTaskList(with: newListTitle, for: taskList)
+            StorageManager.shared.update(taskList: taskList, with: newTitle)
             self.tasksListTableView.reloadRows(at: [indexPath], with: .automatic)
         }
 
@@ -89,16 +89,16 @@ extension ListsViewController {
     }
 
     private func deleteTaskList(with indexPath: IndexPath) {
-        let taskList = taskLists[indexPath.row]
+        let deletingTaskList = taskLists[indexPath.row]
 
-        StorageManager.shared.deleteTaskList(taskList)
+        StorageManager.shared.delete(taskList: deletingTaskList)
         taskLists.remove(at: indexPath.row)
         tasksListTableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
     private func switchTaskListStatus(with indexPath: IndexPath) {
-        let taskList = taskLists[indexPath.row]
-        StorageManager.shared.switchTaskListStatus(taskList)
+        let switchingTaskList = taskLists[indexPath.row]
+        StorageManager.shared.switchStatus(of: switchingTaskList)
     }
 }
 

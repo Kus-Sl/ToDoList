@@ -70,12 +70,12 @@ class StorageManager {
 
 // Task's methods
 extension StorageManager {
-    func createTask(with taskTitle: String, and note: String, to taskList: ToDoTaskList, completion: (ToDoTask) -> ()) {
+    func createTask(with title: String, and note: String, to taskList: ToDoTaskList, completion: (ToDoTask) -> ()) {
         //        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else { return }
         //        guard let toDoTask = NSManagedObject(entity: entityDescription, insertInto: context) as? ToDoTask else { return }
 
         let toDoTask = ToDoTask(context: context)
-        toDoTask.title = taskTitle
+        toDoTask.title = title
         toDoTask.note = note
         toDoTask.date = Date()
 
@@ -85,24 +85,24 @@ extension StorageManager {
         saveContext()
     }
 
-    func updateTask(with newTaskTitle: String, and newNote: String, for updatingTask: ToDoTask) {
-        if newTaskTitle != updatingTask.title {
-            updatingTask.title = newTaskTitle
+    func update(task: ToDoTask, with newTitle: String, and newNote: String) {
+        if newTitle != task.title {
+            task.title = newTitle
         }
 
-        if newNote != updatingTask.note {
-            updatingTask.note = newNote
+        if newNote != task.note {
+            task.note = newNote
         }
         
         saveContext()
     }
 
-    func deleteTask(_ task: ToDoTask) {
+    func delete(task: ToDoTask) {
         context.delete(task)
         saveContext()
     }
 
-    func switchTaskStatus(_ task: ToDoTask) {
+    func switchStatus(of task: ToDoTask) {
         task.isComplete.toggle()
         saveContext()
     }
@@ -110,33 +110,32 @@ extension StorageManager {
 
 // MARK: TaskList's methods
 extension StorageManager {
-
-    func createTaskList(_ listTitle: String, completion: (ToDoTaskList) -> ()) {
+    func createTaskList(with title: String, completion: (ToDoTaskList) -> ()) {
         let taskList = ToDoTaskList(context: context)
-        taskList.title = listTitle
+        taskList.title = title
         taskList.date = Date()
 
         completion(taskList)
         saveContext()
     }
 
-    func updateTaskList(with newListTitle: String, for updatingList: ToDoTaskList) {
-        updatingList.title = newListTitle
+    func update(taskList: ToDoTaskList, with newTitle: String) {
+        taskList.title = newTitle
         saveContext()
     }
 
-    func deleteTaskList(_ taskList: ToDoTaskList) {
-        clearTaskList(taskList)
+    func delete(taskList: ToDoTaskList) {
+        clear(taskList)
         context.delete(taskList)
         saveContext()
     }
 
-    func clearTaskList(_ tasklist : ToDoTaskList) {
-        tasklist.tasks?.forEach { context.delete($0 as! ToDoTask) }
+    func clear(_ taskList : ToDoTaskList) {
+        taskList.tasks?.forEach { context.delete($0 as! ToDoTask) }
         saveContext()
     }
 
-    func switchTaskListStatus(_ taskList: ToDoTaskList) {
+    func switchStatus(of taskList: ToDoTaskList) {
         taskList.tasks?.forEach { ($0 as! ToDoTask).isComplete = true }
         saveContext()
     }

@@ -34,7 +34,7 @@ class TaskListViewController: UITableViewController {
     }
 
     @IBAction func clearTaskListBarButtonTapped() {
-        StorageManager.shared.clearTaskList(taskList)
+        StorageManager.shared.clear(taskList)
         currentTasks = []
         completedTasks = []
         tableView.reloadData()
@@ -58,23 +58,28 @@ extension TaskListViewController {
         present(alert, animated: true)
     }
 
+
+    // Переименовано
     private func updateTask(with indexPath: IndexPath) {
         let updatingTask = getTask(with: indexPath)
 
         let alert = UIAlertController.createAlert(withTitle: "Обновить задачу")
-        alert.showAlert(for: updatingTask) { updatingTaskTitle, updatingNote  in
+        alert.showAlert(for: updatingTask) { newTitle, newNote  in
 
-            StorageManager.shared.updateTask(with: updatingTaskTitle, and: updatingNote, for: updatingTask)
+            StorageManager.shared.update(task: updatingTask, with: newTitle, and: newNote)
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
 
         present(alert, animated: true)
     }
 
+    // Переименовано
     private func deleteTask(with indexPath: IndexPath) {
         let deletingTask = getTask(with: indexPath)
-        StorageManager.shared.deleteTask(deletingTask)
+        StorageManager.shared.delete(task: deletingTask)
 
+
+        // ОСТАНОВИЛСЯ ЗДЕСЬ. Разобраться с этими элсами
         if indexPath.section == 0 {
             currentTasks.remove(at: indexPath.row)
         } else {
@@ -86,7 +91,7 @@ extension TaskListViewController {
 
     private func switchTaskStatus(with indexPath: IndexPath) {
         let switchingTask = getTask(with: indexPath)
-        StorageManager.shared.switchTaskStatus(switchingTask)
+        StorageManager.shared.switchStatus(of: switchingTask)
 
         let destinationIndexPath: IndexPath!
 
