@@ -77,11 +77,9 @@ extension TaskListViewController {
         let deletingTask = getTask(with: indexPath)
         StorageManager.shared.delete(task: deletingTask)
 
-        if indexPath.section == 0 {
-            currentTasks.remove(at: indexPath.row)
-        } else {
-            completedTasks.remove(at: indexPath.row)
-        }
+        _ = indexPath.section == 0
+        ? currentTasks.remove(at: indexPath.row)
+        : completedTasks.remove(at: indexPath.row)
 
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
