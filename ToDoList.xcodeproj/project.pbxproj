@@ -49,6 +49,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A85225CF288D8DB0001CE3FD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A85225CD288C6E7B001CE3FD /* Extension + UITableViewCell.swift */,
+				A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A8BAD10D28800A340057823B = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				A8BAD13128800C3A0057823B /* ViewControllers */,
+				A85225CF288D8DB0001CE3FD /* Extensions */,
 				A8BAD13028800C1B0057823B /* ServiceLayers */,
 				A8BAD12D28800BC40057823B /* Storyboards */,
 				A8BAD13228800C480057823B /* Models */,
@@ -119,8 +129,6 @@
 			children = (
 				A810ACA82886D8A0008A1FB3 /* ListsViewController.swift */,
 				A8BAD11D28800A340057823B /* TaskListViewController.swift */,
-				A85225CD288C6E7B001CE3FD /* Extension + UITableViewCell.swift */,
-				A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
