@@ -29,7 +29,7 @@ class TaskListViewController: UITableViewController {
     }
 
     @IBAction func editTasksBarButtonTapped() {
-        toggleEditMode(with: editTasksBarButton)
+        editTasksBarButton.toggleEditMode(for: tableView)
     }
 
     @IBAction func clearTaskListBarButtonTapped() {
@@ -143,7 +143,7 @@ extension TaskListViewController {
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if editTasksBarButton.title == "Ред." {
-            toggleEditBarButtonTitle()
+            editTasksBarButton.toggleEditBarButtonTitle()
         }
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
@@ -152,7 +152,7 @@ extension TaskListViewController {
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
             self.updateTask(with: indexPath)
-            self.toggleEditMode(with: self.editTasksBarButton)
+            self.editTasksBarButton.toggleEditMode(for: tableView)
             isDone(true)
         }
 
@@ -170,7 +170,7 @@ extension TaskListViewController {
 
     override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         if editTasksBarButton.title != "Ред." && !tableView.isEditing {
-            toggleEditBarButtonTitle()
+            editTasksBarButton.toggleEditBarButtonTitle()
         }
     }
 }
@@ -181,21 +181,6 @@ extension TaskListViewController {
         indexPath.section == 0
         ? currentTasks[indexPath.row]
         : completedTasks[indexPath.row]
-    }
-
-    private func toggleEditMode(with actionItem: UIBarButtonItem) {
-        switch actionItem.title {
-        case "Ред.":
-            toggleEditBarButtonTitle()
-            tableView.setEditing(true, animated: true)
-        default:
-            toggleEditBarButtonTitle()
-            tableView.setEditing(false, animated: true)
-        }
-    }
-
-    private func toggleEditBarButtonTitle() {
-        editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
     }
 
     private func filter(taskList: ToDoTaskList) {

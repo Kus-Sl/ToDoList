@@ -34,7 +34,7 @@ class ListsViewController: UIViewController {
     }
 
     @IBAction func editTasksBarButtonTapped() {
-        toggleEditMode(with: editTasksBarButton)
+        editTasksBarButton.toggleEditMode(for: tasksListTableView)
     }
 
     @IBAction func sortedControlChanged(_ sender: UISegmentedControl) {
@@ -123,7 +123,7 @@ extension ListsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if editTasksBarButton.title == "Ред." {
-            toggleEditBarButtonTitle()
+            editTasksBarButton.toggleEditBarButtonTitle()
         }
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
@@ -132,7 +132,7 @@ extension ListsViewController: UITableViewDelegate {
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
             self.updateTaskList(with: indexPath)
-            self.toggleEditMode(with: self.editTasksBarButton)
+            self.editTasksBarButton.toggleEditMode(for: self.tasksListTableView)
             isDone(true)
         }
 
@@ -150,7 +150,7 @@ extension ListsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         if editTasksBarButton.title != "Ред." && !tableView.isEditing {
-            toggleEditBarButtonTitle()
+            editTasksBarButton.toggleEditBarButtonTitle()
         }
     }
 }
@@ -167,20 +167,5 @@ extension ListsViewController {
             tasks.forEach { print("TASK", $0.title!) }
             taskLists.forEach { print("LIST", $0.title!) }
       }
-    }
-
-    private func toggleEditMode(with actionItem: UIBarButtonItem) {
-        switch actionItem.title {
-        case "Ред.":
-            toggleEditBarButtonTitle()
-            tasksListTableView.setEditing(true, animated: true)
-        default:
-            toggleEditBarButtonTitle()
-            tasksListTableView.setEditing(false, animated: true)
-        }
-    }
-
-    private func toggleEditBarButtonTitle() {
-        editTasksBarButton.title = editTasksBarButton.title == "Ред." ? "Готово" : "Ред."
     }
 }

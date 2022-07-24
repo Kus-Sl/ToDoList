@@ -11,6 +11,7 @@
 		A810ACAB28870392008A1FB3 /* Extension + UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */; };
 		A85225CC288C68E5001CE3FD /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85225CB288C68E5001CE3FD /* DataManager.swift */; };
 		A85225CE288C6E7B001CE3FD /* Extension + UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85225CD288C6E7B001CE3FD /* Extension + UITableViewCell.swift */; };
+		A85225D1288D9182001CE3FD /* Extension + UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85225D0288D9182001CE3FD /* Extension + UIBarButtonItem.swift */; };
 		A8679F7328806CD500759BEC /* ToDoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A8679F7128806CD500759BEC /* ToDoList.xcdatamodeld */; };
 		A8679F7528806D2C00759BEC /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8679F7428806D2C00759BEC /* StorageManager.swift */; };
 		A8BAD11A28800A340057823B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAD11928800A340057823B /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 		A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIAlertController.swift"; sourceTree = "<group>"; };
 		A85225CB288C68E5001CE3FD /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A85225CD288C6E7B001CE3FD /* Extension + UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITableViewCell.swift"; sourceTree = "<group>"; };
+		A85225D0288D9182001CE3FD /* Extension + UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Extension + UIBarButtonItem.swift"; path = "ToDoList/Extensions/Extension + UIBarButtonItem.swift"; sourceTree = SOURCE_ROOT; };
 		A8679F7228806CD500759BEC /* ToDoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDoList.xcdatamodel; sourceTree = "<group>"; };
 		A8679F7428806D2C00759BEC /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		A8BAD11628800A340057823B /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +54,7 @@
 		A85225CF288D8DB0001CE3FD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A85225D0288D9182001CE3FD /* Extension + UIBarButtonItem.swift */,
 				A85225CD288C6E7B001CE3FD /* Extension + UITableViewCell.swift */,
 				A810ACAA28870392008A1FB3 /* Extension + UIAlertController.swift */,
 			);
@@ -217,6 +220,7 @@
 				A8BAD11A28800A340057823B /* AppDelegate.swift in Sources */,
 				A810ACA92886D8A0008A1FB3 /* ListsViewController.swift in Sources */,
 				A8679F7528806D2C00759BEC /* StorageManager.swift in Sources */,
+				A85225D1288D9182001CE3FD /* Extension + UIBarButtonItem.swift in Sources */,
 				A8BAD11C28800A340057823B /* SceneDelegate.swift in Sources */,
 				A85225CE288C6E7B001CE3FD /* Extension + UITableViewCell.swift in Sources */,
 				A810ACAB28870392008A1FB3 /* Extension + UIAlertController.swift in Sources */,
