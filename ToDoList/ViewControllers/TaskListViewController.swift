@@ -21,7 +21,7 @@ class TaskListViewController: UITableViewController {
         super.viewDidLoad()
 
         title = taskList.title
-        filter(taskList: taskList)
+        filter(taskList)
     }
 
     @IBAction func createTaskBarButtonTapped() {
@@ -184,7 +184,7 @@ extension TaskListViewController {
         : completedTasks[indexPath.row]
     }
 
-    private func filter(taskList: ToDoTaskList) {
+    private func filter(_ taskList: ToDoTaskList) {
         if let tasks = taskList.tasks?.compactMap({ $0 as? ToDoTask }) {
             currentTasks = tasks.filter { $0.isComplete == false }
             completedTasks = tasks.filter { $0.isComplete == true }
