@@ -110,7 +110,7 @@ extension ListsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taskList = taskLists[indexPath.row]
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         cell.configure(with: taskList)
         return cell
@@ -130,9 +130,6 @@ extension ListsViewController: UITableViewDelegate {
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
             self.deleteTaskList(with: indexPath)
-            if self.editTasksBarButton.title != "Ред." {
-                self.toggleEditBarButtonTitle()
-            }
         }
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in

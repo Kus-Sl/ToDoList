@@ -149,9 +149,6 @@ extension TaskListViewController {
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
             self.deleteTask(with: indexPath)
-            if self.editTasksBarButton.title == "Ред." {
-                self.toggleEditBarButtonTitle()
-            }
         }
 
         let updateAction = UIContextualAction(style: .normal, title: "Обновить") { _, _, isDone in
