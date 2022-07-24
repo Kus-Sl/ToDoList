@@ -59,6 +59,9 @@ extension ListsViewController {
 // MARK: TaskList management
 extension ListsViewController {
     private func createTaskList() {
+        if editTasksBarButton.title != "Ред." {
+            editTasksBarButton.toggleEditMode(for: tasksListTableView)
+        }
 
         let alert = UIAlertController.createAlert(withTitle: "Новый список")
         alert.showAlert(for: nil) { listTitle in

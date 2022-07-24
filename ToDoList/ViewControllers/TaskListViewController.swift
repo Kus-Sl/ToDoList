@@ -43,6 +43,9 @@ class TaskListViewController: UITableViewController {
 // MARK: Task manangement
 extension TaskListViewController {
     private func createTask() {
+        if editTasksBarButton.title != "Ред." {
+            editTasksBarButton.toggleEditMode(for: tableView)
+        }
 
         let alert = UIAlertController.createAlert(withTitle: "Новая задача")
         alert.showAlert(for: nil) { taskTitle, note in
