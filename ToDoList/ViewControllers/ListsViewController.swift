@@ -98,9 +98,7 @@ extension ListsViewController {
 
     private func switchTaskListStatus(with indexPath: IndexPath) {
         let taskList = taskLists[indexPath.row]
-
-        let status = taskList.currentTaskCount == 0
-        StorageManager.shared.switchTaskListStatus(taskList, from: status)
+        StorageManager.shared.switchTaskListStatus(taskList)
     }
 }
 
@@ -111,16 +109,10 @@ extension ListsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         let taskList = taskLists[indexPath.row]
-
-        cell.contentConfiguration = {
-            var content = cell.defaultContentConfiguration()
-            content.text = taskList.title
-            content.secondaryText = String(taskList.currentTaskCount)
-            return content
-        }()
-
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        cell.configure(with: taskList)
         return cell
     }
 }
@@ -149,11 +141,7 @@ extension ListsViewController: UITableViewDelegate {
             isDone(true)
         }
 
-        let doneActionTitle = taskLists[indexPath.row].currentTaskCount != 0
-        ? "Выполнено"
-        : "Не выполнено"
-
-        let doneAction = UIContextualAction(style: .normal, title: doneActionTitle) { _, _, isDone in
+        let doneAction = UIContextualAction(style: .normal, title: "Завершить") { _, _, isDone in
             self.switchTaskListStatus(with: indexPath)
             self.tasksListTableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)

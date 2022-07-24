@@ -80,7 +80,6 @@ extension StorageManager {
         toDoTask.date = Date()
 
         taskList.addToTasks(toDoTask)
-        taskList.currentTaskCount += 1
 
         completion(toDoTask)
         saveContext()
@@ -100,22 +99,12 @@ extension StorageManager {
 
     func deleteTask(_ task: ToDoTask) {
         context.delete(task)
-        task.taskList?.currentTaskCount -= 1
         saveContext()
     }
 
-    func switchTaskStatus(_ task: ToDoTask) -> Bool {
-
-        if task.isComplete {
-            task.taskList?.currentTaskCount += 1
-        } else {
-            task.taskList?.currentTaskCount -= 1
-        }
-
+    func switchTaskStatus(_ task: ToDoTask) {
         task.isComplete.toggle()
-
         saveContext()
-        return task.isComplete
     }
 }
 
@@ -144,18 +133,11 @@ extension StorageManager {
 
     func clearTaskList(_ tasklist : ToDoTaskList) {
         tasklist.tasks?.forEach { context.delete($0 as! ToDoTask) }
-        tasklist.currentTaskCount = 0
         saveContext()
     }
 
-    func switchTaskListStatus(_ taskList: ToDoTaskList, from status: Bool) {
-        taskList.tasks?.forEach { ($0 as! ToDoTask).isComplete = !status }
-
-        if status {
-            taskList.currentTaskCount = Int64(taskList.tasks!.count)
-        } else {
-            taskList.currentTaskCount = 0
-        }
+    func switchTaskListStatus(_ taskList: ToDoTaskList) {
+        taskList.tasks?.forEach { ($0 as! ToDoTask).isComplete = true }
         saveContext()
     }
 }

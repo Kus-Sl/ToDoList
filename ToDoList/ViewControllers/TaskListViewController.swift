@@ -90,21 +90,22 @@ extension TaskListViewController {
 
     private func switchTaskStatus(with indexPath: IndexPath) {
         let switchingTask = getTask(with: indexPath)
+        StorageManager.shared.switchTaskStatus(switchingTask)
 
-        if StorageManager.shared.switchTaskStatus(switchingTask) {
+        let destinationIndexPath: IndexPath!
+
+        switch indexPath.section {
+        case 0:
+            destinationIndexPath = IndexPath(row: 0, section: 1)
             currentTasks.remove(at: indexPath.row)
-//            completedTasks.append(switchingTask) //никакой разницы
             completedTasks.insert(switchingTask, at: 0)
-
-            let cellIndex = IndexPath(row: 0, section: 1)
-            tableView.moveRow(at: indexPath, to: cellIndex)
-        } else {
+        default:
+            destinationIndexPath = IndexPath(row: currentTasks.count, section: 0)
             completedTasks.remove(at: indexPath.row)
             currentTasks.append(switchingTask)
-
-            let cellIndex = IndexPath(row: currentTasks.count - 1, section: 0)
-            tableView.moveRow(at: indexPath, to: cellIndex)
         }
+
+        tableView.moveRow(at: indexPath, to: destinationIndexPath)
     }
 }
 
