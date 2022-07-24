@@ -73,10 +73,6 @@ extension TaskListViewController {
 
     private func deleteTask(with indexPath: IndexPath) {
         let deletingTask = getTask(with: indexPath)
-
-        /* Проверял здесь массивы. И после удаления из контекста элемент удаляется из всех массивов. И из currentTasks / completedTasks и из taskList. Но вот в таком случае при удалении строки (deleteRows) вылетает ошибка. И мне приходится вручную удалять элемент из currentTasks / completedTasks массивов. C чем это может быть связано? С тем, что контекст сохраняет изменения не сразу, а с какой-то задержкой?
-         */
-
         StorageManager.shared.deleteTask(deletingTask)
 
         if indexPath.section == 0 {
