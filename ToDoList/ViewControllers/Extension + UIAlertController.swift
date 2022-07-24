@@ -14,9 +14,8 @@ extension UIAlertController {
     }
 
     func showAlert(for task: ToDoTask?, mainAction: @escaping (String, String) -> ()) {
-        
         let nameMainAction = task == nil ? "Сохранить" : "Обновить"
-        
+
         let cancelAction = UIAlertAction(title: "Отменить", style: .destructive)
         
         let mainAction = UIAlertAction(title: nameMainAction, style: .default) { _ in
@@ -24,7 +23,6 @@ extension UIAlertController {
             else { return }
             guard let noteTitle = self.textFields?.last?.text
             else { return }
-
             mainAction(taskTitle, noteTitle)
         }
         
